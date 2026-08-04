@@ -10,6 +10,7 @@ const FILES = [
     "paradox_carriers.jl",
     "paradox_randu.jl",
     "paradox_uncomputable.jl",
+    "paradox_boygirl.jl",
     "audit_paradoxes_by_author.jl",
 ]
 
