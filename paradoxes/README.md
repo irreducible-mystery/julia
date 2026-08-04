@@ -1,6 +1,6 @@
 # paradoxes/ — Monte Carlo as court, and the modifications of the court
 
-Five files, each with a LEDGER, pre-registered predictions written before
+Six files, each with a LEDGER, pre-registered predictions written before
 running, and a hard exit code. Prose is ledger; the exit code is the evidence.
 `julia paradoxes/run_all.jl` — exit 0.
 
@@ -42,6 +42,23 @@ running, and a hard exit code. Prose is ledger; the exit code is the evidence.
    defined (uniform on an infinite ladder), and MC refuses to run an
    undefined measure. The refusal is the resolution.
 
+6. **`paradox_tags.jl`** — the answer to "and then what?" Once the sampler
+   is the question, what does COMBINING samplers do, and what does keeping
+   the tag (sampler, outcome) change? Five exit-code claims: untagged
+   mixtures relocate ambiguity into their weights (two blends, 13/36 vs
+   41/120, mutually excluded at ~30σ — Bertrand recurses); tagging is
+   lossless (one mixed run, conditioned on tag, recovers 1/3, 1/2, 1/4);
+   tags are EXCHANGEABLE (radial draws re-weighted by density ratios answer
+   the endpoints and midpoint questions with no new draws — importance
+   sampling revealed as question transport); the spread of tagged answers
+   is an AMBIGUITY METER (length question: 267.7σ, ill-posed; direction
+   question: 2.0σ, well-posed by the family's shared rotational symmetry —
+   the meter certifies exactly that and no more); and Dawid's regime tag
+   (one dataset tagged observe/intervene answers BOTH the seeing question,
+   B > A, and the doing question, A > B, while the untagged blend sits
+   ~58σ from each — a number that answers neither). Every paradox in this
+   directory was an erased tag; this file is the erasure run in reverse.
+
 ## Errata paid before commit (the exit codes convicted, the ledger records)
 
 - **Bertrand P5, first draft**: used a CONCENTRIC small circle; the
@@ -71,15 +88,26 @@ cannot be normalized. Monte Carlo is the discipline that will not let
 you leave the sampler unstated — and "modified Monte Carlo" is what you
 do once you notice the sampler was the question all along.
 
+And once noticed, the discipline compresses (file 6 proves each step):
+a "paradox" is what an erased tag feels like from inside; tagged answers
+cannot conflict, only differ; kept tags are portable across questions at
+the price of a likelihood ratio; the tagged spread of a sampler family
+is an instrument that measures how well-posed a question is RELATIVE TO
+THE DECLARED FAMILY — never more; and the question "who chose the
+family?" is a sampler one level up that no file can audit from inside.
+The well-posed question is a constant function from samplers to answers;
+the paradox was a non-constant one someone insisted on calling a number.
+
 ## Running
 
 ```sh
-julia paradoxes/run_all.jl                    # exit 0 iff all five courts pass
+julia paradoxes/run_all.jl                    # exit 0 iff all six courts pass
 julia paradoxes/paradox_monty.jl              # exit 0 iff P1–P4
 julia paradoxes/paradox_bertrand.jl           # exit 0 iff P1–P5
 julia paradoxes/paradox_petersburg.jl         # exit 0 iff P1–P4
 julia paradoxes/paradox_simpson_birthday.jl   # exit 0 iff P1–P5
 julia paradoxes/modified_mc.jl                # exit 0 iff P1–P4b
+julia paradoxes/paradox_tags.jl               # exit 0 iff P1–P5
 ```
 
 Julia ≥ 1.11, base library + Random only. Fixed seeds; the 5σ tolerances
@@ -94,4 +122,15 @@ are chosen to be seed-robust, and the stranger is invited to reseed.
   family of samplers rather than three specimens?
 - Simpson at the boundary: how small can the confounding be before
   400_000 trials can no longer convict the reversal at 5σ?
+- The tagger's regress (from _tags): the ambiguity meter is relative to
+  a declared family, and the family choice is a sampler one level up.
+  Is there a fixed point — a family that contains its own parametrization
+  question — or does the tower never close? (Rhymes with the Tarski-ladder
+  move on the Sorites board.)
+- Question transport (P3) paid an unbounded weight on an event where it
+  stayed affordable. Classify: between which pairs of tags is transport
+  affordable (finite second moment), and is affordability symmetric?
+- The regime tag in P5 was observable by construction. Real confounding
+  is a MISSING tag. Can a court convict tag-erasure from the blended
+  data alone, without ever seeing the tag?
 - No one has audited these audits.
