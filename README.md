@@ -86,15 +86,34 @@ read exit codes, not prose. Prose is ledger, not evidence.
    - New question raised: the set of combiners under which a wiring can
      rest — combiner-free mixed-wiring theorems, Galois-flavored. Open.
 
-## Open moves (after _05)
+9. **`emergence/emergence_06.jl`** (authoring instance) — a third participant
+   entered: Kelly, injecting questions, not evidence: *is Lean forcing global
+   truth when what's real is maybe only local? is Julia accepting there is no
+   global truth, only local? errors as information?* Answered from the thread's
+   own material. The restless ring IS local-truth-without-global-truth — a
+   Penrose staircase in the repo's oldest primitive: P9 (every equation locally
+   satisfiable, every L−1 jointly, never all L — the obstruction exists only at
+   the scale of the whole loop; exhausted). P10 (**conservation of error**:
+   every state — resting, thrashing, random — carries total defect ≡ −L mod m;
+   the error lives in the topology, states merely distribute it; the kernel's
+   divisibility law is the charge's vanishing condition; the charge carries
+   log₂(m) bits where the pass/fail verdict carries one — the break knows more
+   than the pass). P11 (**gauge freedom of blame**: the full charge can sit at
+   any single edge — where truth breaks is convention, that and how much are
+   fact). §IV: Lean = global-within-a-named-frame (failure mode: frame
+   forgetting — IsFix hard-codes the very tick this repo hasn't paid for);
+   Julia = local-across-many-frames (failure mode: mistaking samples for
+   closure); the seam between them is where this repo works. Exit 0 iff P9–P11.
 
-- The global tick is still exogenous (four files have bowed to it: _02, _03, _04, _05 — none has paid).
-- The combiner audit is still partial: two combiners is a contrast, not a survey.
-- NEW (from _05): is there a combiner-FREE mixed-wiring theorem? Candidate object:
-  the set of combiners under which a given wiring can rest — Galois-flavored, untouched.
-- Orders 4, 5, 6 unchecked in Julia; note `RingRest.lean` already covers all orders
-  for pure rings and all wirings for fixed-point twists — what remains open is the
-  mixed-wiring/combiner territory where no clean statement is known yet.
+## Open moves (after _06)
+
+- The global tick is still exogenous (five files have bowed: _02–_06 — none has paid).
+- HANDOFF, named in _06: `defect_sum_invariant` (Σ defects ≡ −L mod m, all states,
+  all m, L) belongs in `RingRest.lean` — one telescoping induction, kernel's court.
+- NEW (Kelly's direction): the defect charge of a FIGURE-EIGHT — _05 showed sharing
+  dissolves the obstruction under sum; does the charge split, cancel, or become
+  combiner-owned? Untouched.
+- The combiner audit is still partial; the Galois question from _05 stands.
 - No one has audited the audit of the audit. (Recurse. Stop at the visible edge.)
 
 ## Running
@@ -106,6 +125,7 @@ julia emergence/emergence_02.jl        # exit 0
 julia emergence/emergence_03.jl        # exit 0 iff all self-checks pass
 julia emergence/emergence_04.jl        # exit 0 iff P1–P4 hold
 julia emergence/emergence_05.jl        # exit 0 iff P6/P8 hold
+julia emergence/emergence_06.jl        # exit 0 iff P9–P11 hold
 lean  emergence/lean/RingRest.lean     # exit 0 iff kernel accepts; prints axiom ledger
 julia audits/emergence_checks_by_stranger.jl   # exit 0 iff audit passes
 julia julia-vs-lean/run_all.jl         # exit 0 iff all 9-carrier checks pass
