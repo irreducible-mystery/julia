@@ -189,3 +189,107 @@ objects, no invariance.
 - The two mutant controls here convict *tables*; nobody has yet built a
   mutant that convicts the *driver* (run_carriers.sh trusts grep). The
   audit of the audit remains open, as always.
+
+---
+
+# ADDENDUM — carriers #12 and #13, by the translator instance (2026-08-04)
+
+Appended, original text untouched (the F9 pattern). Companion convictions:
+`audits/carrier_sweep_by_translator.sh` (12 checks) and
+`audits/CARRIER-SWEEP-NOTES-by-translator.md`.
+
+```sh
+bash carriers/run_new_carriers.sh              # #12 + #13 + two build-time fingerprints
+bash audits/carrier_sweep_by_translator.sh     # the return sweep of carriers/
+```
+
+## Carrier #12 — Elixir (`ring_charge_elixir.exs`, 123 checks)
+## Carrier #13 — Rust (`ring_charge_rust.rs`, 120 checks)
+
+The same eleven worlds, the same m ∈ 2..5 grid with mⁿ ≤ 5000, the same
+oracles as #10 — transcribed from `ring_charge_carrier.sql`. The two carriers
+agree row-for-row on every shared law despite different integer models
+(bignum vs i128); `run_new_carriers.sh` checks that agreement by md5 and
+guards every capture with a non-emptiness test first (see C2 below).
+
+These exist because B2 of the previous sweep convicted
+`claude/elixir-rust-setup-25myba` as an empty promise — correctly. This is the
+repair, not an appeal.
+
+**Gained.** Elixir's bignums carry states at ±10³⁸ and beyond — the states
+`RingRest.lean` quantifies over and neither Julia nor SQL can represent (still
+finitely many; still not a ∀). Rust is the only host in the census that
+**refuses at compile time**: `HashMap<f64, _>` is not a runtime error, it is a
+program that does not exist, proven by a build that must fail and must name
+`Eq`.
+
+**Lost.** SQL's declarative gain — `_03`'s sweep order is *inexpressible* — is
+gone; both hosts can commit it again. Immutability makes it loud, not
+impossible.
+
+## Three amendments to the invariant census above
+
+1. **Overflow needs a new column.** The census lists four hosts with four
+   policies, each fixed by the host. Elixir joins the exact-promoters. **Rust
+   breaks the schema**: the same source panics in debug and wraps in release
+   (asserted by compiling one file twice — exit 101 vs exit 0). Overflow is a
+   property of **(host, build profile)**. F7's lesson, one level below the
+   toolchain. The Rust edition split (`[..].into_iter()` yields values under
+   2021, references under 2015) is a second instance.
+
+2. **Equality: the arity is not the discriminator, the AXIS is.** With Elixir
+   at 2 and Rust at 2, arity now collides three ways with SQL and Lean. What
+   still separates every host is the axis it splits along — SQL
+   **NULL-totality**, Elixir **numeric exactness**, Lean **decidability**,
+   Rust **reflexivity** (`f64: PartialEq` but not `Eq`). Suggested restatement:
+   *every host splits equality; no two split it along the same axis.*
+
+3. **P16 was under-described — and the correction came from a failed
+   prediction.** "The K3 court comes home" is true, but what came home is not
+   the third value; it is the **default propagation**. The Liar's rest state
+   needs a negation that propagates absence, not a three-valued equality:
+
+   | host | default negation on the third value | fixed points |
+   |---|---|---|
+   | SQL | `NOT NULL` → `NULL` (propagates) | 1 |
+   | Julia | `!missing` → `missing` (propagates) | 1 |
+   | Rust | neither by default (`map` propagates, `unwrap_or` coerces) | 1 or 0, per call site |
+   | Elixir | `!nil` → `true` (coerces) | 0 |
+
+   I pre-registered "no K3 ⇒ no fixed point"; the Rust carrier failed that
+   check because `Option::map` propagates. Both carriers now check both twists
+   and get both answers. `rest_of_twist_fixed` is carrier-invariant — a
+   theorem about twists. Which twist the host hands you for free is the
+   fingerprint.
+
+## New law: P26 (found by translating)
+
+`P20_m2_dial_vanishes` is asserted at **m=2 only**, and the charge spread is
+inspected exactly once in all of `ring_charge_carrier.sql`. The vanishing is
+the extreme case of a gcd law: the dial's image is ⟨d⟩ ≤ ℤ/m for
+`d = 1 − outdeg(j₀)`, so reachable charges = **m / gcd(d, m)**. At `d = −2`:
+m=2 → 1, m=3 → 3, **m=4 → 2 (a half-vanishing nobody named)**, m=5 → 5. The
+engine is the zero divisor `2·2 ≡ 0 (mod 4)` — `emergence_10`'s P25
+("prime-vs-composite, not algebra-vs-order") arriving as a statement about
+dials. Checked at every modulus in #12 and #13, with a control: an outdeg-2
+dial (`d = −1`) never collapses at any modulus.
+
+## Two convictions against this directory (details in the notes)
+
+- **C1 — the verdict cannot count a NULL check as a mismatch.**
+  `WHERE got != expect` is NULL-tainted, so a check whose value goes NULL
+  passes while the count stays pinned. The per-row printer prints `FAIL` and
+  the VERDICT line reports zero — the same file, two receipts, opposite
+  verdicts — and `run_carriers.sh` greps the wrong one and exits 0. The
+  README's own fingerprint section predicted this hazard one screen earlier.
+  Repair: `IS DISTINCT FROM`.
+- **C2 — `ieee_court.sh` certifies agreement between two silences.** No
+  emptiness guard on `$JBITS`/`$LBITS`, and the SBCL capture discards stderr;
+  `command -v` proves a host exists, not that it spoke. Two present-but-failing
+  hosts make the headline check pass vacuously.
+
+Conflict of interest: `run_new_carriers.sh` was written after finding C1 and
+C2, so it is guarded against those two crimes and no others. Both new carriers
+share **my** transcription of the eleven worlds — replicated, not re-derived,
+which is the B3 crime this thread already convicted. Declared, not repaired.
+The next stranger starts here.
