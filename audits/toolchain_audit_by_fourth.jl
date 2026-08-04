@@ -160,20 +160,73 @@ let lean_src = rd("emergence/lean/RingRest.lean")
     count_shows == 3 ||
         fail("F7: expected 3 β-reducing show sites, found $count_shows — repair incomplete")
     pass("repair present in source: erratum block + all 3 show sites")
-    lean = Sys.which("lean")
+end
+
+# F7, GENERALIZED (three convergent reports asked for this: my own PR #5
+# review, PR #8's B-series sweep, and the cross-link filed on PR #7). The
+# gate below is NOT RingRest-specific: it sweeps EVERY .lean file in the
+# tree, so any kernel artifact a future branch merges — blackhole's
+# Recurrence.lean is the live case — inherits the gate without anyone
+# remembering to add it. `#print axioms` PRINTS; it does not fail a build.
+# A ledger nobody greps is a receipt nobody reads.
+println("\nF7  the ledger gate, swept over every Lean artifact in the tree")
+let lean = Sys.which("lean")
+    leanfiles = String[]
+    for (dir, _, files) in walkdir(root)
+        occursin(joinpath(root, ".git"), dir) && continue
+        for f in files
+            endswith(f, ".lean") &&
+                push!(leanfiles, relpath(joinpath(dir, f), root))
+        end
+    end
+    sort!(leanfiles)
+    isempty(leanfiles) && fail("F7: no .lean files found — the sweep is looking in the wrong place")
+    println("  found $(length(leanfiles)) Lean artifact(s): ", join(leanfiles, ", "))
     if lean === nothing
-        skip("no `lean` on PATH — dynamic check: run `lean emergence/lean/RingRest.lean`; require exit 0 and a sorryAx-free ledger")
+        skip("no `lean` on PATH — dynamic gate withheld. To run it: for each file above, " *
+             "`lean <file>`; require exit 0 AND a ledger with no sorryAx")
     else
-        out = IOBuffer()
-        p = run(pipeline(setenv(`$lean $(joinpath(root, "emergence/lean/RingRest.lean"))`; dir=root),
-                         stdout=out, stderr=out); wait=false)
-        wait(p)
-        txt = String(take!(out))
-        p.exitcode == 0 ? pass("lean ($(strip(read(`$lean --version`, String)))) exit 0") :
-                          fail("F7: RingRest.lean exits $(p.exitcode) on the PATH lean")
-        occursin("sorryAx", txt) &&
-            fail("F7: sorryAx in the axiom ledger — a declaration silently degraded")
-        occursin("sorryAx", txt) || pass("axiom ledger sorryAx-free on this toolchain")
+        ver = strip(read(`$lean --version`, String))
+        println("  toolchain: ", ver)
+        for lf in leanfiles
+            out = IOBuffer()
+            p = run(pipeline(setenv(`$lean $(joinpath(root, lf))`; dir=root),
+                             stdout=out, stderr=out); wait=false)
+            wait(p)
+            txt = String(take!(out))
+            p.exitcode == 0 || fail("F7: $lf exits $(p.exitcode) on $ver")
+            if occursin("sorryAx", txt)
+                fail("F7: sorryAx in $lf's axiom ledger — a declaration silently degraded " *
+                     "(exit code alone would NOT have caught this)")
+            elseif p.exitcode == 0
+                pass("$lf — exit 0, ledger sorryAx-free")
+            end
+        end
+        # FALSIFICATION CONTROL: a gate that has never fired is a gate nobody
+        # has tested. Plant a theorem proved by `sorry` in a temp dir and
+        # demand (a) that lean STILL EXITS 0 on it — the exact blindness F7
+        # exploited — and (b) that this gate convicts it anyway.
+        mktempdir() do d
+            planted = joinpath(d, "Planted.lean")
+            write(planted, """
+            namespace Planted
+            theorem plausible_but_unproven (n : Nat) : n + 0 = n := by sorry
+            #print axioms plausible_but_unproven
+            end Planted
+            """)
+            out = IOBuffer()
+            p = run(pipeline(setenv(`$lean $planted`; dir=d), stdout=out, stderr=out); wait=false)
+            wait(p)
+            txt = String(take!(out))
+            p.exitcode == 0 ||
+                fail("F7 control: lean rejected the planted sorry outright (exit $(p.exitcode)) — " *
+                     "this toolchain is stricter than 4.22/4.32; re-derive F7's blindness claim")
+            occursin("sorryAx", txt) ||
+                fail("F7 control: planted sorry produced no sorryAx in the ledger — gate untestable")
+            (p.exitcode == 0 && occursin("sorryAx", txt)) &&
+                pass("control: a planted `sorry` compiles at EXIT 0 and is caught only by the " *
+                     "ledger grep — the blindness is real and the gate is not blind to it")
+        end
     end
 end
 
