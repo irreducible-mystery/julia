@@ -26,7 +26,22 @@
 #     P2  exact-match crossing: smallest n with P > 1/2 is 23
 #         (bracketed by MC at 22 below and 23 above, 5σ each side).
 #     P3  near-match (±1 day): with 14 people P > 1/2, with 13 P < 1/2
-#         (5σ). Exact CDF for ±1: known product formula checked at n=14.
+#         (5σ). Exact CDF for ±1 via the circular-gap (≥2) closed
+#         form  P(none) = n!·N·C(N−n,n) / ((N−n)·N^n), verified
+#         by brute exhaustion at small N inside this file, and
+#         checked by MC at n=4_000_000 (5σ = 0.00125 — an
+#         instrument fine enough to convict a wrong constant).
+#         ERRATUM, convicted by the adversarial sweep (audits/
+#         adversarial_sweep_by_stranger.jl F6, replicated in
+#         paradoxes/audit_paradoxes_by_author.jl): the first
+#         committed draft used ∏(365−3k)/365, "the clean product
+#         form" — which is FALSE (fails exhaustion at N=10, n=3;
+#         off by 0.00284 at (365,14)). It passed because the
+#         original court's 5σ at n=400_000 was 0.00394: the
+#         error was smaller than the instrument. A PASS is a
+#         fact about (claim, instrument) — this file now quotes
+#         the pair. The wrong formula is preserved here because
+#         deleting it would repeat the error.
 #     P4  Simpson world, OBSERVATIONAL arm: treatment A beats B
 #         inside both severity strata (each by > 5σ) AND loses
 #         pooled (by > 5σ). All three inequalities must hold in
@@ -87,19 +102,36 @@ println("  ", ok2 ? "PASS" : "MISS", "  n=23 above 1/2  (got $(round(p23,digits=
 (ok1 && ok2) || fail("P2")
 
 println("P3  modified: near-match ±1 day — crossing drops to 14")
-# exact ±1 cyclic formula (known): P(no near-match, n people) =
-#   (365-3n+... ) — rather than cite, we use the clean product form:
-#   P(none) = ∏_{k=1}^{n-1} (365 − 3k) / 365   [valid while 365−3k > 0]
-p14 = p_match(rng, 14, NB; window = 1)
-p13 = p_match(rng, 13, NB; window = 1)
-exact14 = 1 - prod((365 - 3k) / 365 for k in 1:13)
-oka = abs(p14 - exact14) <= 5sigmaB(exact14)
-okb = p14 > 0.5 + 5sigmaB(0.5)
+# exact circular-gap (≥2) closed form; the product form ∏(365−3k)/365 was
+# convicted (see ERRATUM in the ledger). Acquit the exact form by exhaustion
+# at small N first — the formula must earn jurisdiction before it judges MC:
+exact_no(N, n) = factorial(big(n)) * big(N) * binomial(big(N-n), big(n)) //
+                 (big(N-n) * big(N)^n)
+brute_no(N, n) = count(code -> begin
+        days = digits(code, base=N, pad=n)
+        all(begin d = abs(days[i]-days[j]); min(d, N-d) > 1 end
+            for i in 1:n-1 for j in i+1:n)
+    end, 0:N^n-1) / N^n
+for (N, n) in ((10,3),(14,4))
+    ok = isapprox(brute_no(N, n), Float64(exact_no(N, n)); atol=1e-12)
+    println("  ", ok ? "PASS" : "MISS", "  exact form matches exhaustion at N=$N, n=$n")
+    ok || fail("P3 formula check at N=$N")
+end
+const NB4 = 4_000_000      # instrument fine enough to convict a wrong constant
+sigmaB4(p) = sqrt(p*(1-p)/NB4)
+p14 = p_match(rng, 14, NB4; window = 1)
+p13 = p_match(rng, 13, NB;  window = 1)
+exact14 = 1 - Float64(exact_no(365, 14))
+wrong14 = 1 - prod((365 - 3k) / 365 for k in 1:13)   # the convicted constant
+oka = abs(p14 - exact14) <= 5sigmaB4(exact14)
+okw = abs(p14 - wrong14) >  5sigmaB4(exact14)
+okb = p14 > 0.5 + 5sigmaB4(0.5)
 okc = p13 < 0.5 - 5sigmaB(0.5)
-println("  ", oka ? "PASS" : "MISS", "  n=14 matches product formula (got $(round(p14,digits=4)), exact $(round(exact14,digits=4)))")
+println("  ", oka ? "PASS" : "MISS", "  n=14 hits exact form (got $(round(p14,digits=5)), exact $(round(exact14,digits=5)), n=4M)")
+println("  ", okw ? "PASS" : "MISS", "  n=14 EXCLUDES the convicted product constant $(round(wrong14,digits=5))")
 println("  ", okb ? "PASS" : "MISS", "  n=14 above 1/2")
 println("  ", okc ? "PASS" : "MISS", "  n=13 below 1/2  (got $(round(p13,digits=4)))")
-(oka && okb && okc) || fail("P3")
+(oka && okw && okb && okc) || fail("P3")
 
 # ---------------- SIMPSON COURT ----------------------------------
 # Generative world:

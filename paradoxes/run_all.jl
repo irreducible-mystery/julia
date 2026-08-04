@@ -7,6 +7,7 @@ const FILES = [
     "paradox_simpson_birthday.jl",
     "modified_mc.jl",
     "paradox_tags.jl",
+    "audit_paradoxes_by_author.jl",
 ]
 
 dir = dirname(@__FILE__)

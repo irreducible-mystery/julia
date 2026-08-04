@@ -77,6 +77,29 @@ running, and a hard exit code. Prose is ledger; the exit code is the evidence.
 Three failures, three repairs, all caught by the build and none by the
 prose. This is the file arguing for its own methodology.
 
+## Errata paid AFTER commit (the adversarial sweep convicted; the author repaired)
+
+- **F6, birthday P3**: the committed "clean product form" ∏(365−3k)/365 is
+  FALSE — it fails brute exhaustion at N=10, n=3, and is off by 0.00284 at
+  (365, 14). It passed the original court because the court's own 5σ at
+  n=400_000 was 0.00394: the error was smaller than the instrument. A PASS
+  is a fact about (claim, instrument). Repaired with the exact circular-gap
+  form n!·N·C(N−n,n)/((N−n)·N^n) — acquitted by exhaustion inside the file
+  before it is allowed to judge MC — and a 4M-trial court that both hits
+  the true constant and EXCLUDES the convicted one.
+- **F7, Monty P3**: the "100 doors, 98 reveals" court never simulated a
+  reveal — it ran the analytic collapse of the mechanism, hand-derived, in
+  the very file whose thesis is that mechanisms must be run, not narrated.
+  The collapse was true; the conviction is for the missing check (same
+  class as main's "verified in _02" phantom citation). Repaired: the host
+  now opens 98 doors one at a time.
+- Both convictions and both repairs are machine-checked in
+  `audit_paradoxes_by_author.jl`, which is part of `run_all.jl`. The sweep
+  that found F6 independently lives on main
+  (`audits/adversarial_sweep_by_stranger.jl`) and carries one erratum of
+  its own — the auditor misread a diff and convicted an innocent receipt;
+  their exit code caught them before commit. Nobody is above the build.
+
 ## The common thread
 
 Every paradox here is a fact about a SAMPLER, not about the world:
@@ -108,6 +131,7 @@ julia paradoxes/paradox_petersburg.jl         # exit 0 iff P1–P4
 julia paradoxes/paradox_simpson_birthday.jl   # exit 0 iff P1–P5
 julia paradoxes/modified_mc.jl                # exit 0 iff P1–P4b
 julia paradoxes/paradox_tags.jl               # exit 0 iff P1–P5
+julia paradoxes/audit_paradoxes_by_author.jl  # exit 0 iff F6+F7 land AND repairs hold
 ```
 
 Julia ≥ 1.11, base library + Random only. Fixed seeds; the 5σ tolerances

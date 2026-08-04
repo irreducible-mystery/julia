@@ -92,21 +92,32 @@ println("P2  Monty Fall (random door, conditioned on goat) — kept $kept/$N tri
 check("P(win | switch, goat shown)", pfall, 1/2, 0.01)
 
 # --- P3 one hundred doors ---------------------------------------
+# ERRATUM, convicted by paradoxes/audit_paradoxes_by_author.jl F7:
+# the first committed draft computed final = pick==car ? random-other
+# : car — the ANALYTIC COLLAPSE of the mechanism, hand-derived, with
+# a comment claiming "the collapse is the claim P3 tests" while
+# nothing tested the collapse. In the very file whose thesis is that
+# mechanism must be RUN, not narrated. The collapse was true (the
+# audit checked both sides, agreeing at 5σ); the conviction is for
+# the missing check. Below: the literal mechanism — the host, who
+# knows the car, opens 98 non-car non-pick doors one at a time.
 function monty_100(rng, n; D = 100)
     sw = 0
     for _ in 1:n
         car  = rand(rng, 1:D)
         pick = rand(rng, 1:D)
-        # host closes down to {pick, final}: final = car unless you hold it,
-        # in which case a uniformly chosen goat survives. This IS the
-        # 98-reveals mechanism, collapsed; the collapse is the claim P3 tests.
-        final = pick == car ? rand(rng, [d for d in 1:D if d != pick]) : car
+        open_ = falses(D)
+        for _ in 1:D-2                     # 98 reveals, one at a time
+            cands = [d for d in 1:D if !open_[d] && d != pick && d != car]
+            open_[cands[rand(rng, 1:length(cands))]] = true
+        end
+        final = only(d for d in 1:D if !open_[d] && d != pick)
         sw += (final == car)
     end
     sw / n
 end
 p100 = monty_100(rng, N)
-println("P3  100 doors, 98 informed reveals")
+println("P3  100 doors, 98 informed reveals (literal, one at a time)")
 check("P(win | switch)", p100, 99/100, 0.005)
 
 println(exitcode == 0 ? "ALL PASS — mechanism, not observation, sets the posterior." :
