@@ -183,6 +183,35 @@ read exit codes, not prose. Prose is ledger, not evidence.
     census-first remains the only instrument — which sharpens the Galois
     question. Exit 0 iff P19–P21 + controls.
 
+13. **`carriers/`** (translating instance) — Kelly's question — *can this
+    be translated into SQL? into Lisp? what is lost and gained?* — answered
+    by construction: carriers #10 and #11, the thread's first courts that
+    are neither Julia nor Lean.
+    - **#10 SQL** (`ring_charge_carrier.sql`, 151 checks): wirings as edge
+      tables, the census as a query. rest ⟺ m|L, P10, rest ⟺ charge-0,
+      graph-general (★) on every state of eleven worlds, P13/P19 dial, P20
+      with its m=2 vanishing, P21; two mutant laws must fire. The census
+      has NO sweep order — _03's smuggled order and _05's soft-scope flag
+      are *inexpressible* in this carrier — and the host pays with new
+      fingerprints instead: truncated `%` (the floored-mod trap),
+      NULL-swallowing `SUM` (Julia's `init=0` is `COALESCE` here), the
+      INNER JOIN that silently drops the unheard mark. And the K3 court
+      comes home: SQL's NULL is the third value `missing` was imported
+      from; NOT's unique fixed point over {0,1,NULL} is NULL —
+      rest_of_twist_fixed wearing SQL, P16's costume returned to its owner.
+    - **#11 Common Lisp** (`mu4_battery.lisp`, 36 checks): the full 29-line
+      μ₄ battery over seven exact Lisp carriers + the two-equalities float
+      pair, the 65536 sweep (32/64/8, pentagon ⟺ untwisted), gd3 at ℤ/6,
+      mutant controls. Equality is MORE plural here (eq/eql/equal/equalp/=)
+      and bites exact data: matrices under `eq` lose 21/29 with no float in
+      sight. The Int64 = ℤ/2⁶⁴ finding DIES (bignums; wrap is opt-in): a
+      host finding does not translate — it re-instantiates or dies, and its
+      death is the datum. Unregistered convergence, reported as found: the
+      float-exact carrier broke the SAME 13 lines as Julia's FLOAT_EXACT
+      with bit-identical dirt (1.2246467991473532e-16) — IEEE 754 is a
+      deeper invariant than either language on top of it.
+    Full gains/losses/fingerprints ledger in `carriers/README.md`.
+
 ## Open moves (after _09)
 
 - The global tick is still exogenous (eight files: _02–_09 — the shock priced it
@@ -197,6 +226,11 @@ read exit codes, not prose. Prose is ledger, not evidence.
 - New small fact wanting a home: invariant-vs-dial is modulus-relative (P20's
   −2 ≡ 0 mod 2). Is there a clean classification of which dials each ℤ/m can see?
 - No one has audited the audit of the audit. (Recurse. Stop at the visible edge.)
+- The transpose translations, declared not delivered (carriers/README.md):
+  μ₄ in SQL (blocked on first-class functions — nine duplicated query sets
+  would destroy the methodology being translated), orbits in SQL (recursive
+  CTEs reintroduce the update discipline; the tick debt decides the price),
+  the paradox corpus in Lisp (no native K3 — that thesis emigrates to SQL).
 
 ## After the adversarial sweep (PRs #1, #2 — merged; debts paid on main)
 
@@ -239,7 +273,9 @@ julia audits/audit_08_by_stranger.jl   # exit 0 iff _08 replication passes
 lean  emergence/lean/RingRest.lean     # exit 0 iff kernel accepts; prints axiom ledger
 julia audits/emergence_checks_by_stranger.jl   # exit 0 iff audit passes
 julia julia-vs-lean/run_all.jl         # exit 0 iff all 9-carrier checks pass
+bash  carriers/run_carriers.sh         # exit 0 iff carriers #10 (SQL) and #11 (Lisp) pass
 ```
 
 Julia 1.12, base library only. `RingRest.lean` needs any Lean ≥ 4.22 (no
-imports, no Mathlib). The circle-six-gap-proof artifact itself is not stored here.
+imports, no Mathlib). `carriers/` needs SQLite ≥ 3.39 and SBCL — nothing
+else does. The circle-six-gap-proof artifact itself is not stored here.
