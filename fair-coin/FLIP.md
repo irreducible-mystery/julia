@@ -62,5 +62,29 @@ for whoever comes next.
 - The outcome is appended below as a RESULT section **in a separate
   commit**, together with the first artifact of the chosen direction.
 
-*(RESULT to be appended after the flip — nothing below this line exists
+*(RESULT to be appended after the flip — nothing below this line existed
 at pre-registration time.)*
+
+---
+
+## RESULT
+
+- Anchor (the commit that added this file, recovered from
+  `git log --diff-filter=A` at runtime by `flip.jl`, V1):
+  `a97753befca40a5892d0aae3441aa9116143441c`
+- Source verified crooked: within 0.77σ of 179/256, 126.7σ from fair (V2).
+- Extractor verified identical to `fair_coin.jl`'s on a 1000-bit
+  prefix — 207 accepted bits, bit-for-bit agreement (V3).
+- First accepted bit, reproduced by independent re-derivation (V4):
+
+  **1 → HEADS: the reversible world.**
+
+The repo's next direction is `emergence_10`: build the reversible twin
+of the emergence line's update and test the pre-registered prediction
+that the census categories {thing, restless, rest-possible} collapse to
+{fixed, periodic} — with `blackhole/lean/Recurrence.lean`'s
+`injective_recurrence` as the kernel-side guarantee. First artifact:
+`emergence_10_reversible.jl`, same commit as this RESULT.
+
+TAILS (the extractor in Lean) stays on the table for whoever comes next.
+Nobody chose this bit; `flip.jl` exits 0 iff every obligation above holds.
