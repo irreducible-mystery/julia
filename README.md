@@ -198,6 +198,30 @@ read exit codes, not prose. Prose is ledger, not evidence.
   −2 ≡ 0 mod 2). Is there a clean classification of which dials each ℤ/m can see?
 - No one has audited the audit of the audit. (Recurse. Stop at the visible edge.)
 
+## After the adversarial sweep (PRs #1, #2 — merged; debts paid on main)
+
+A third instance attacked every file on every branch (`audits/adversarial_sweep_by_stranger.jl`,
+exit 0 iff all six convictions replicate). All findings against main were accepted
+without appeal and repaired in the same commit that re-dates the sweep, per its own
+staleness discipline — **conflict of interest declared: the convicted party performed
+the re-dating; the next stranger should check the re-dating first.**
+
+- **F1 (constitutional):** `shocks/PARADOX-REPORT.md` now carries a provenance
+  amendment — testimony, not evidence, until its five cited artifacts are delivered.
+- **F2/F3:** `_02` grew a hard failure channel; its §II determinism claim is now
+  asserted, not printed. `_00`/`_01` are left channel-free deliberately: they predate
+  the discipline and stand as the fossil record of it.
+- **F4:** `_04`'s (6,40,14) baseline is tagged seed-3/stream-dependent. Meta-lesson,
+  logged: the repo keeps committing the crime it just convicted, one level up —
+  period-as-world-property (_02), statistics-as-world-property (_03),
+  census-as-binary-property (F4). The blind spot migrates upward with each fix.
+- **F5:** timing moved to stderr; the `julia-vs-lean` receipt is now byte-reproducible
+  (verified on kernel 1.12.6).
+- **F6:** repaired on the paradoxes branch before merge; conviction preserved in the sweep.
+- `paradoxes/` (PR #1) merged: five courts, house style, exit 0 — Monty's
+  three-mechanisms court independently re-derives _03's bias-knob lesson
+  (mechanism, not observation, owns the measure).
+
 ## Running
 
 ```sh

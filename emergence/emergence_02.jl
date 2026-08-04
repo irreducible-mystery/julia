@@ -38,6 +38,14 @@
 
 import Random
 
+# RE-DATED 2026-08 (post adversarial sweep, F2/F3): this file's
+# load-bearing claim (§II determinism) was computed and only
+# printed — it could not lose. The channel below was added by
+# the convicted party, after conviction. The original sin stays
+# in the ledger; the fix is dated.
+exitcode = 0
+fail(m) = (global exitcode = 1; println("  ** FAIL ** ", m))
+
 # --- primitives, unchanged from _01 --------------------------
 struct World; inputs::Vector{Vector{Int}}; end
 nmarks(w) = length(w.inputs)
@@ -139,6 +147,7 @@ for ((fm,out),n) in sort(collect(table))
 end
 determined = all(length(unique(out for ((fm,out),_) in table if fm==m)) == 1 for m in 1:2)
 println("  outcome fully determined by first mover? ", determined)
+determined || fail("§II determinism: outcome must be fixed by first effective mover (F2/F3 repair)")
 println()
 println("  Read it three ways, and watch the perspectives split:")
 println("  CLASSICAL:  no chance at all. The schedule is a hidden")
@@ -194,3 +203,4 @@ println("  one has audited; (3) the analogy in §II is an analogy —")
 println("  no interference, no non-commuting contexts, was exhibited.")
 println("• This file, too, will not see its own blind spots. It is")
 println("  written in expectation of the next stranger.")
+exit(exitcode)
