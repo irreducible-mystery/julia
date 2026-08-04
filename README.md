@@ -130,14 +130,42 @@ read exit codes, not prose. Prose is ledger, not evidence.
    obstruction into a controllable one — the boundary between invariant and
    instrument is one edge wide. Exit 0 iff (★), P12–P14 and their controls.
 
-## Open moves (after _07)
+11. **`shocks/PARADOX-REPORT.md` + `emergence/emergence_08.jl`** (authoring
+    instance) — a SHOCK dropped from outside: a Quine-taxonomy of paradoxes in
+    Julia ("every unresolvable paradox is x = not(x)"; "antinomy =
+    self-reference ∘ negation; self-reference alone is innocent"; antinomies
+    appear as empty fixed-point sets / oscillation / stack overflow).
+    Convergence noted first: their antinomy criterion IS this repo's restless
+    class, reached independently — evidence the invariant is real, not house
+    style. Then the taxonomy re-typed and tested: **P15** — in binary the Liar
+    is the ONLY possible antinomy (exhaustion of the entire function space of
+    {0,1}: NOT is the unique fixed-point-free map), so Quine's unification is
+    a *theorem of ℤ/2*, not an observation. **P16** — Kleene's `missing` =
+    installing a fixed point (`!missing === missing` is `rest_of_twist_fixed`
+    wearing Base Julia); the Strengthened Liar re-erupts because derangements
+    never run out — Tarski's hierarchy as an endless ladder of twists, each
+    rung's rest bought by the next rung's restlessness. **P17** — the
+    unification DIES at m=4: x+1 and x+2 are both antinomies, provably
+    non-conjugate (orders 4 ≠ 2; conjugacy classes counted by exhaustion:
+    1 at m=2, splitting from m=4 on); two genuinely distinct Liars. **P18** —
+    Curry's twist at pigs=⊥ IS negation, assembled from → and ⊥ exactly as
+    _00 built NOT from cross; "no consistent assignment unless pigs fly" =
+    the fixed locus is empty unless pigs fly. Verdict: antinomy = re-entry ∘
+    fixed-point-free twist; negation was never the ingredient — emptiness of
+    the fixed locus was. And the dynamical reading stays this thread's own:
+    their antinomies "cannot terminate"; ours oscillate with period structure,
+    conserved charge, and a dial when shared. Exit 0 iff P15–P18.
 
-- The global tick is still exogenous (six files have bowed: _02–_07 — none has paid).
-- ~~HANDOFF: `defect_sum_invariant`~~ — PAID in _07 / RingRest.lean Section 2.
-- ~~Figure-eight charge~~ — ANSWERED in _07: delocalizes onto the shared mark, becomes a dial.
-- NEW, named and closable: (★) the graph-general charge formula for arbitrary finite
-  wirings under sum — one telescoping sum; `defect_sum_invariant` is its permutation
-  case. Either court may take it.
+## Open moves (after _08)
+
+- The global tick is still exogenous (seven files have bowed: _02–_08 — none
+  has paid). The shock names its price elsewhere: StackOverflowError is this
+  same debt, borrowed from a call stack instead of declared.
+- (★) the graph-general charge formula, named in _07, closes and is unclaimed —
+  one telescoping sum; either court may take it.
+- NEW (the shock's direction): the Sorites in our coordinates — a twist family
+  indexed by cutoff/degree where every choice of rest is an instrument choice.
+  Is higher-order vagueness a ladder like Tarski's (P16)? Untouched.
 - Genuinely open: the max-combiner charge (max is not algebra — no (★) exists yet);
   the combiner survey; the Galois question from _05.
 - No one has audited the audit of the audit. (Recurse. Stop at the visible edge.)
@@ -153,6 +181,7 @@ julia emergence/emergence_04.jl        # exit 0 iff P1–P4 hold
 julia emergence/emergence_05.jl        # exit 0 iff P6/P8 hold
 julia emergence/emergence_06.jl        # exit 0 iff P9–P11 hold
 julia emergence/emergence_07.jl        # exit 0 iff (★), P12–P14 + controls hold
+julia emergence/emergence_08.jl        # exit 0 iff P15–P18 hold
 lean  emergence/lean/RingRest.lean     # exit 0 iff kernel accepts; prints axiom ledger
 julia audits/emergence_checks_by_stranger.jl   # exit 0 iff audit passes
 julia julia-vs-lean/run_all.jl         # exit 0 iff all 9-carrier checks pass
