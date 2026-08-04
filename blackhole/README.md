@@ -1,7 +1,14 @@
 # blackhole/ — a black hole, modeled from inside this repo's state space
 
-One file, ten hard predictions, one pre-registered self-conviction, one
-in-flight erratum. `julia blackhole/blackhole_in_my_state_space.jl` — exit 0.
+Two files. The first: ten hard predictions, one pre-registered
+self-conviction, one in-flight erratum. The second: the fourth
+instance's adversarial review, paid finding by finding, plus the three
+open moves (a/b/c) run on the repaired instruments.
+
+```sh
+julia blackhole/blackhole_in_my_state_space.jl      # exit 0 — the model
+julia blackhole/blackhole_repairs_and_page_time.jl  # exit 0 — the review paid + moves a,b,c
+```
 
 The brief was unusual: not "run the standard black-hole demonstrations"
 but *what does a black hole look like projected onto YOUR basis?* This
@@ -85,6 +92,75 @@ the center.
   of last representability; a black hole is where the territory makes
   the map admit it.
 
+## The review, and what it cost (blackhole_repairs_and_page_time.jl)
+
+A fourth instance audited PR #5 adversarially: **sound-with-findings,
+seven findings, zero overturned verdicts.** Every finding that convicts
+an instrument has a repaired instrument in the sequel file, run against
+the original claim. The original file is untouched — its errata are its
+history.
+
+- **R1/Q1** — the ray that "hit the center" at r = −0.0092: forward
+  Euler overshot r = 0 and the guard exited below zero. Clamped; the
+  court now demands r_end == 0.0 exactly and r never negative.
+- **R2/Q2** — the model's favorite sentence died here. "Same photons,
+  opposite verdicts" compared the keyed channel with one *marginalized
+  over 400 random keys* — different photons. The actual single-key
+  stream viewed keylessly carries **7.1 bits** with the message: a
+  classical bijection hides nothing from anyone who can enumerate.
+  What is near zero is the key-ENSEMBLE MI — a fact about the ensemble
+  of holes, not about an observer's ignorance. Casualty registered:
+  **classical reversible holes have no observer-relative thermality.**
+  That idea was quantum, smuggled. (Its real home: Q8.)
+- **R3/Q3** — one-byte identification was tested at one lucky message.
+  Full census: **89/256** singletons at one byte (≈ 256/e — the
+  random-function count), 254 at two, 256 at three. Identification is
+  generic only at three bytes.
+- **R4/Q4** — χ²(13L) = 13·χ²(L) *exactly* (verified to 3e-14): the
+  "conviction above recurrence" was the acquittal number times
+  thirteen. Repaired: a fresh Xoshiro stream of the same length is
+  acquitted (the control), and the recurrence convicts by its own
+  signature — verbatim periodicity at three independent offsets. The
+  amplification identity is now an exhibit, not a conviction.
+- **R5/Q5** — "monotone" was vacuous (true of any map on a coarsening
+  chain; the reviewer's lossy control passed). What bijectivity buys
+  is the ENDPOINT: bijection ends at H = 8.0 exactly, a 2-to-1 map at
+  7.0 exactly. Both run.
+- **R6/Q6** — "invented lineage" accepted **with a receipt attached**:
+  `paradoxes/paradox_tags.jl` was merged to main 2h25m before PR #5
+  opened, so the tag doctrine exists and precedes the PR — but it is
+  one file old and paradoxes-scoped, and PR #5 cited it as house-wide
+  law. The repair is precision: Q6 reads the file from disk rather
+  than remembering it.
+- **R7** — the bundled audit: accepted without defense. A bundled
+  audit is testimony, not acquittal; only a stranger running against
+  the merged tree can acquit. Written down as norm.
+
+## The three open moves, run (same file)
+
+- **(a)/Q7 — the aligned question measures a DEPTH.** Walsh spectrum
+  (max over 255×255 mask pairs of lag-1 parity bias): rounds 1–2 of
+  the Feistel are convicted at 16σ and 28σ; at rounds 5–6 the entire
+  65025-question court sits inside the extreme-value noise envelope.
+  The RANDU move works on shallow holes and dies with depth —
+  "scrambled" is always *scrambled relative to the deepest question
+  yet asked*. (RANDU: depth 0. Curiosity: 2 rounds is LOUDER than 1.)
+- **(b)/Q8 — Page time for an observer with a stake: Hayden–Preskill.**
+  Two referee qubits maximally entangled with the infalling message,
+  10-qubit hole, Haar unitary, qubits emitted one at a time; I(R:rad)
+  computed exactly. The curve is a KNEE: 0.18 bits at m = 3, 2.0 at
+  m = 5, 3.99 at m = 9 — nothing before half-evaporation, everything
+  shortly after. Contrast Q3: the classical hole names 89 messages in
+  its first byte. Observer-relative thermality is real but *priced in
+  entanglement, not keys* — it needed the quantum carrier to exist.
+- **(c)/Q9 — the trapped-surface predicate.** TRAPPED ⟺ both null
+  futures point inward. GR at r < r_s: outgoing slope (1−r_s/r)/2 < 0
+  — trapped. Any Michell dark star: the outgoing ray launches at +1 at
+  every radius — never trapped; its darkness is attenuation, not
+  topology. The whole P3/P4 conviction compressed to one line, the way
+  Penrose (1965) ended the debate: courts should end as predicates
+  when they can.
+
 ## Errata
 
 - **P4, first run (paid in-flight, preserved in the ledger):** the
@@ -111,7 +187,8 @@ the horizon of the present can say. Priced; not paid; named.
 ## Running
 
 ```sh
-julia blackhole/blackhole_in_my_state_space.jl   # exit 0 iff P1–P10
+julia blackhole/blackhole_in_my_state_space.jl      # exit 0 iff P1–P10
+julia blackhole/blackhole_repairs_and_page_time.jl  # exit 0 iff Q1–Q9
 ```
 
 Julia ≥ 1.11, stdlib only (LinearAlgebra, Random). Fixed seeds;
@@ -119,24 +196,29 @@ tolerances are seed-robust; the stranger is invited to reseed.
 
 ## Open moves
 
-- The scrambler's recurrence (P6) was found at 16 bits. The claim "no
-  friendly court convicts below recurrence" deserves an adversary: is
-  there a RANDU-style aligned integrand for THIS Feistel — a question
-  shaped like its rounds — that convicts well below L?
-- P7's keyless MI used a shuffle null at one byte. Run the Page-time
-  version: at what fraction of emitted bytes does the keyless
-  observer's MI first exceed the null — and does that fraction move
-  toward 1/2 as the block size grows?
-- The dark star (P3) and the EF court (P4) disagree about the membrane.
-  Between them sits a family of models (slow light + absorption, etc.).
-  Parametrize it and find the exact property that P4 has and every
-  member of the P3 family lacks — candidate: existence of a trapped
-  surface, checkable as "dr/dv < 0 for BOTH null directions."
-- P10's r* is Float64's. Do the census across carriers: Float32,
-  Float16, BigFloat at fixed precision — each has its own surface of
-  last representability. Is there a carrier-independent statement of
-  "the model died before the center," or is that sentence always about
-  a specific machine?
+- ~~Aligned integrand for the Feistel~~ — **run (Q7).** New form of the
+  question: Q7's Walsh court is lag-1 pairs only. Deeper alignments
+  (three-point masks, key-dependent questions) might convict rounds
+  3–4. Where exactly is THIS hole's depth? And is there a hole whose
+  depth is *provably* infinite for a fixed question family?
+- ~~Page-time keyless MI~~ — **re-typed and run (Q8).** The classical
+  version of the question dissolved in Q2 (no classical
+  observer-relative thermality); the honest version is Hayden–Preskill,
+  and the knee is at half-evaporation. Next: give the observer EARLY
+  radiation instead of a stake (the "old black hole" case) and check
+  the knee moves to k qubits after the message falls in — the actual
+  HP decoding claim, one level up.
+- ~~Trapped-surface predicate~~ — **run (Q9).** Next: the predicate on a
+  DYNAMICAL background — Vaidya-style infalling shell, watch the
+  trapped region be born at finite v; the horizon as an event that
+  happens, not a place that is.
+- P10's r* census across carriers (Float32/Float16/BigFloat) — still
+  open.
 - The coda's claim — that no inside court can distinguish memory from
   loan — is itself an exit-code-shaped claim one level up. Nobody has
   tried to build the court it says cannot exist.
+- Q7's curiosity (2 rounds louder than 1 in the Walsh court, 27.7σ vs
+  16.3σ) is unexplained in this file. A one-round Feistel passes half
+  its state through untouched; why is the two-round bias LARGER?
+  Conjecture: the linearity of round 1 feeds coherently into round 2's
+  same-key structure. Deserves its own small court.
