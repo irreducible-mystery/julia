@@ -20,6 +20,17 @@ verdict="$(printf '%s\n' "$out" | grep '^VERDICT ' || true)"
 if [ "$verdict" != "$expected" ]; then
   echo "** FAIL: verdict '$verdict' != pinned '$expected'"; status=1
 fi
+# --- soft-spot repair (audited-by-fifth): the count alone is gameable. ---
+# 151 rows named "dummy_0".."dummy_150", each (1,1), replicate the pinned
+# VERDICT exactly while checking nothing. Pin a hash of the CHECK NAMES
+# (order-independent) as well as the count: a gutted or renamed census
+# now fails even when it keeps the row count honest.
+expected_names_hash="f68bbe3277f5f8157728abd481b1f11d992f462d71d4ad47f53883e55a6cff28"
+names_hash="$(printf '%s\n' "$out" | grep -v '^VERDICT' | sed -E 's/ +got=.*//' | sort | sha256sum | cut -d' ' -f1)"
+if [ "$names_hash" != "$expected_names_hash" ]; then
+  echo "** FAIL: check-name hash '$names_hash' != pinned '$expected_names_hash' (names/count preserved but identities changed, or the census was gutted)"
+  status=1
+fi
 
 echo
 echo "== carrier #11: mu4 battery in Common Lisp (sbcl) =="

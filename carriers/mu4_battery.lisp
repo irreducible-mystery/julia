@@ -41,13 +41,38 @@
 
 (defvar *exitcode* 0)
 (defvar *nchecks* 0)
+(defvar *check-names* nil)
 (defconstant +expected-checks+ 36)
 
 (defun check (name ok)
   (incf *nchecks*)
+  (push name *check-names*)
   (unless ok (setf *exitcode* 1))
   (format t "  ~:[** FAIL **~;ok~]  ~a~%" (and ok t) name)
   ok)
+
+;; --- soft-spot repair (audited-by-fifth, ported from the SQL carrier's
+;; identical vulnerability): +expected-checks+ pins a COUNT, and a count
+;; is gameable — 36 calls to (check "dummy-N" t) reproduces
+;; "36/36 checks, exit 0" while checking nothing. Pin a hash of the
+;; check NAMES (order-independent) too: a gutted or renamed battery now
+;; fails even when the row count stays honest. Verified by construction:
+;; a 36-line all-dummy battery passes the count gate and fails this one.
+(defun names-digest (names)
+  ;; sort then hash with SBCL's built-in sxhash composed over a sorted
+  ;; list, printed as hex — no external deps, deterministic within a
+  ;; run and reproducible across runs of the same input list. Masked to
+  ;; 64 bits at every step so the accumulator cannot grow unboundedly
+  ;; (a bignum digest is still deterministic, but an ever-widening
+  ;; printed string is its own small instrument bug — avoided here).
+  (let ((sorted (sort (copy-list names) #'string<))
+        (mask (1- (expt 2 64))))
+    (format nil "~(~16,'0x~)"
+            (logand mask
+                    (reduce (lambda (acc s)
+                              (logand mask (logxor (* acc 1000003) (sxhash s))))
+                            sorted :initial-value 0)))))
+(defconstant +expected-names-digest+ "357266c49fe40fab")
 
 ;; ====================================================================
 ;; CARRIER RECORDS — a rep is data: first-class functions in a struct,
@@ -482,12 +507,22 @@
 
 ;; ====================================================================
 ;; RECEIPT — pinned count first: a truncated run must not pass
-;; (the flag that couldn't fail, remembered).
+;; (the flag that couldn't fail, remembered). Then pinned NAME DIGEST:
+;; a count-only receipt is gameable (see the repair note at `check`'s
+;; definition) — 36 vacuous (check "dummy-N" t) calls reproduce
+;; "36/36, exit 0". The digest catches what the count cannot.
 ;; ====================================================================
 (format t "~%")
 (unless (= *nchecks* +expected-checks+)
   (setf *exitcode* 1)
   (format t "** FAIL ** ran ~d checks, pinned ~d~%" *nchecks* +expected-checks+))
+(let ((digest (names-digest *check-names*)))
+  (if (string= +expected-names-digest+ "SET-AFTER-FIRST-CORRECT-RUN")
+      (format t "~%NAME-DIGEST (first run, not yet pinned): ~a~%" digest)
+      (unless (string= digest +expected-names-digest+)
+        (setf *exitcode* 1)
+        (format t "** FAIL ** name-digest ~a != pinned ~a (battery gutted or renamed)~%"
+                digest +expected-names-digest+))))
 (format t "~a — ~d/~d checks; read the exit code, not the text~%"
         (if (zerop *exitcode*) "ALL LISP CHECKS PASSED" "SOMETHING FAILED")
         *nchecks* +expected-checks+)

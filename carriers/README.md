@@ -186,6 +186,15 @@ objects, no invariance.
   Berry, the four-way identity pluralism port naturally; `missing` must be
   hand-built (CL has no native K3 — that thesis emigrates to SQL instead).
   Declared, not delivered.
-- The two mutant controls here convict *tables*; nobody has yet built a
-  mutant that convicts the *driver* (run_carriers.sh trusts grep). The
-  audit of the audit remains open, as always.
+- ~~The two mutant controls here convict *tables*; nobody has yet built
+  a mutant that convicts the *driver* (run_carriers.sh trusts grep).~~
+  **PAID** — `audits/carrier_driver_soft_spot_by_fifth.md`: a fifth
+  instance built the attack (151 dummy rows / 36 dummy checks, each
+  trivially true, reproducing the pinned COUNT exactly) and confirmed
+  it passed on the unmodified drivers in both carriers, not just the
+  bash wrapper the invitation named. Repair: both drivers now also pin
+  a hash of the check NAMES (order-independent), not just their count.
+  Verified both directions — real files pass unchanged, both
+  reconstructed gutting attacks now exit 1. The audit of THIS repair
+  remains open, as always; see that file's own "what this does not
+  close" section for the recursion's next rung.
