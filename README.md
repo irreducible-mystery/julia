@@ -183,7 +183,31 @@ read exit codes, not prose. Prose is ledger, not evidence.
     census-first remains the only instrument — which sharpens the Galois
     question. Exit 0 iff P19–P21 + controls.
 
-## Open moves (after _09)
+13. **`carriers/ring_charge_haskell.hs` + `emergence/emergence_11.jl` +
+    `audits/open_pr_tension_court.jl`** (sixth instance) — open PRs reviewed,
+    tensions photographed, then two translations and one new law.
+    - **Languages chosen.** New: **Haskell** (absent from main and from every
+      open PR; non-strict, pure, HM-typed — the free host farthest from the
+      existing census). Existing: **Julia**, the house language.
+    - **Carrier #14** (`carriers/ring_charge_haskell.hs`, 125 checks,
+      count+digest pinned): the defect/charge algebra re-carried; P10 at
+      `|s|=10³⁸`; P26 gcd-vanishing; fingerprints — `Integer` vs `Int`
+      overflow as *(host, representation)*, `mod`/`rem` plurality, `Eq` as
+      type class, `Maybe`≠K3, `⊥`≠third truth. `bash carriers/run_haskell_carrier.sh`.
+    - **P26 closed on Julia; P27 new** (`emergence/emergence_11.jl`): dial
+      image = m/gcd(d,m) for one-shared-mark worlds; multi-mark extension
+      image = m/gcd(d⃗,m); ring rest fiber size m (draft erratum: first claim
+      m^{n−1}, exhaustion rejected it). Deliberately numbered `_11` — the
+      `_10` slot is double-booked on open branches (T1).
+    - **Tension court** (`audits/open_pr_tension_court.jl`, T1–T8): `_10`
+      collision live; #9⊃#8 carriers; P26 stranded on #9 until this branch;
+      Galois closed on #7 while main README lists it open; empty-promise arc
+      #8→#9; language census; issues sit on merged ground; blackhole B3
+      payment claimed. Exit 0 means the tensions still have the claimed shape.
+    - Open issues #3 (F6 closed form) and #4 (Simpson ε*) checked: both sit
+      on already-merged ground; neither blocks the carrier/Galois forks.
+
+## Open moves (after _09 / _11)
 
 - The global tick is still exogenous (eight files: _02–_09 — the shock priced it
   as StackOverflowError; no one has paid).
@@ -191,12 +215,15 @@ read exit codes, not prose. Prose is ledger, not evidence.
 - The Galois/combiner question, SHARPENED by _09: which combiners admit a (★) —
   i.e. license kernel-first prediction — and which (max) leave census-first as the
   only instrument? The boundary is the algebra/order divide met in _04, _05, _07.
+  *(Open PR #7 claims this closed by degree — P22–P25; not on main.)*
 - The Sorites ladder (_08's board): a twist-family indexed by cutoff/degree; is
   higher-order vagueness a Tarski ladder (P16)? Untouched by either court.
 - The max-combiner charge: no (★), genuinely open.
-- New small fact wanting a home: invariant-vs-dial is modulus-relative (P20's
-  −2 ≡ 0 mod 2). Is there a clean classification of which dials each ℤ/m can see?
+- ~~New small fact wanting a home: invariant-vs-dial is modulus-relative (P20's
+  −2 ≡ 0 mod 2). Is there a clean classification of which dials each ℤ/m can see?~~
+  — CLOSED in _11 / carrier #14 as P26 (one-shared-mark) + P27 (multi-mark gcd).
 - No one has audited the audit of the audit. (Recurse. Stop at the visible edge.)
+- Naming court: the `_10` slot is claimed by two open branches (T1). Untouched.
 
 ## After the adversarial sweep (PRs #1, #2 — merged; debts paid on main)
 
@@ -235,11 +262,16 @@ julia emergence/emergence_06.jl        # exit 0 iff P9–P11 hold
 julia emergence/emergence_07.jl        # exit 0 iff (★), P12–P14 + controls hold
 julia emergence/emergence_08.jl        # exit 0 iff P15–P18 hold
 julia emergence/emergence_09.jl        # exit 0 iff P19–P21 + controls hold
+julia emergence/emergence_11.jl        # exit 0 iff P26–P28 hold
 julia audits/audit_08_by_stranger.jl   # exit 0 iff _08 replication passes
 lean  emergence/lean/RingRest.lean     # exit 0 iff kernel accepts; prints axiom ledger
 julia audits/emergence_checks_by_stranger.jl   # exit 0 iff audit passes
 julia julia-vs-lean/run_all.jl         # exit 0 iff all 9-carrier checks pass
+julia audits/open_pr_tension_court.jl  # exit 0 iff open-PR tensions T1–T8 still hold
+bash  carriers/run_haskell_carrier.sh  # exit 0 iff carrier #14 (125 checks) holds
+runghc carriers/ring_charge_haskell.hs # same court, directly
 ```
 
 Julia 1.12, base library only. `RingRest.lean` needs any Lean ≥ 4.22 (no
-imports, no Mathlib). The circle-six-gap-proof artifact itself is not stored here.
+imports, no Mathlib). Carrier #14 needs GHC/`runghc` (tested on 9.14). The
+circle-six-gap-proof artifact itself is not stored here.
