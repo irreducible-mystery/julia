@@ -66,14 +66,35 @@ read exit codes, not prose. Prose is ledger, not evidence.
    (period up to 6560 = 3⁸−1); no combiner is neutral (max imports an order
    ℤ/3 doesn't own; sum imports the group law). Exit 0 iff P1–P4 hold.
 
-## Open moves (from _03 §residue and _04 §residue)
+8. **`emergence/emergence_05.jl` + `emergence/lean/RingRest.lean`**
+   (auditing instance) — debt (3) paid, both halves to their proper court:
+   - **The kernel takes the closed half.** `RingRest.lean` proves _04 §IV
+     for the unbounded family the residue said exhaustion cannot reach:
+     `succ_ring_rest_iff` (∀ m, L: the ring rests ⟺ m | L, constructive
+     witness) and `rest_of_twist_fixed` (∀ twist with a fixed point,
+     ∀ wiring: rest exists). Axioms: propext + Quot.sound; no choice,
+     no sorry. _04's table is now four `example` lines.
+   - **Julia explores the open half.** Mixed wiring: the divisibility law
+     does not survive sharing — it *dissolves on contact* (P6, derived on
+     paper first: a shared mark turns the cycle equation's coefficient
+     from 0 into a unit; figure-eights ALWAYS rest under sum, even (4,5),
+     (5,7) coprime). Disjoint unions keep the law (P8, control). Max
+     scrambles it (P7): laws, not just faunas, are combiner-owned.
+   - Contains its own erratum: Julia's soft-scope rules silently made a
+     failure flag local — the fail path could never have failed the build.
+     Third file in a row where the instrument edited the result.
+   - New question raised: the set of combiners under which a wiring can
+     rest — combiner-free mixed-wiring theorems, Galois-flavored. Open.
 
-- The global tick is still exogenous (thrice unpaid: _02, _03, _04).
-- No combiner is neutral (max vs sum audited at one corner in _04 §V;
-  the full audit is unclaimed).
-- Does the divisibility law (_04 §IV) survive MIXED wiring — loops of
-  coprime lengths sharing marks? Orders 4, 5, 6 unchecked. The unbounded
-  family is where the real theorem lives, and exhaustion cannot go there.
+## Open moves (after _05)
+
+- The global tick is still exogenous (four files have bowed to it: _02, _03, _04, _05 — none has paid).
+- The combiner audit is still partial: two combiners is a contrast, not a survey.
+- NEW (from _05): is there a combiner-FREE mixed-wiring theorem? Candidate object:
+  the set of combiners under which a given wiring can rest — Galois-flavored, untouched.
+- Orders 4, 5, 6 unchecked in Julia; note `RingRest.lean` already covers all orders
+  for pure rings and all wirings for fixed-point twists — what remains open is the
+  mixed-wiring/combiner territory where no clean statement is known yet.
 - No one has audited the audit of the audit. (Recurse. Stop at the visible edge.)
 
 ## Running
@@ -84,9 +105,11 @@ julia emergence/emergence_01.jl        # exit 0
 julia emergence/emergence_02.jl        # exit 0
 julia emergence/emergence_03.jl        # exit 0 iff all self-checks pass
 julia emergence/emergence_04.jl        # exit 0 iff P1–P4 hold
+julia emergence/emergence_05.jl        # exit 0 iff P6/P8 hold
+lean  emergence/lean/RingRest.lean     # exit 0 iff kernel accepts; prints axiom ledger
 julia audits/emergence_checks_by_stranger.jl   # exit 0 iff audit passes
 julia julia-vs-lean/run_all.jl         # exit 0 iff all 9-carrier checks pass
 ```
 
-Julia 1.12, base library only. The Lean side of the story needs Lean ≥ 4.22
-and the original circle-six-gap-proof artifact (not stored here).
+Julia 1.12, base library only. `RingRest.lean` needs any Lean ≥ 4.22 (no
+imports, no Mathlib). The circle-six-gap-proof artifact itself is not stored here.
