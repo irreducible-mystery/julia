@@ -139,6 +139,7 @@ battery = ["emergence/emergence_00.jl", "emergence/emergence_01.jl",
            "audits/audit_08_by_stranger.jl",
            "audits/emergence_checks_by_stranger.jl",
            "audits/adversarial_sweep_by_stranger.jl",
+           "audits/audit_pr5_q7_by_fourth.jl",
            "julia-vs-lean/run_all.jl",
            "paradoxes/run_all.jl",
            "paradoxes/audit_paradoxes_by_author.jl"]
