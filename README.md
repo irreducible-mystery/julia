@@ -105,15 +105,41 @@ read exit codes, not prose. Prose is ledger, not evidence.
    Julia = local-across-many-frames (failure mode: mistaking samples for
    closure); the seam between them is where this repo works. Exit 0 iff P9–P11.
 
-## Open moves (after _06)
+10. **`emergence/emergence_07.jl` + `RingRest.lean` Section 2** (auditing instance) —
+   the named handoff PAID and Kelly's figure-eight question answered. Lean side:
+   `telescope` (the one telescoping induction), `defect_sum_invariant` (P10 for ALL
+   m including 0, ALL L ≥ 1, ALL states s : Nat → Int — a strictly larger state
+   space than any Julia sweep), `defect_gauge` (P11 with an explicit constructive
+   witness, no search), `charge_zero_iff_dvd` and `rest_iff_charge_zero` (the ring
+   rests iff the charge of ANY one state vanishes — the kernel's binary verdict is
+   the zero-fiber of the m-valued invariant). Ledger: propext + Quot.sound,
+   choice-free — with a recorded near-miss: `Int.natCast_dvd_natCast` would have
+   smuggled Classical.choice; the Int→Nat descent goes through natAbs instead. The
+   lemma you reach for silently sets your axiom budget: the instrument leaves
+   fingerprints even in the kernel's court. Falsification control: a mutant
+   claiming charge −(L+1) was rejected by the kernel (8 errors). Julia side
+   (paper-derived FIRST, then exhausted with controls): (★) the out-degree charge
+   formula Σd ≡ Σ(1−outdeg(j))·s_j − n; P12 (**conservation is an out-degree
+   property**: charge is state-independent ⟺ the wiring is a permutation ⟺ every
+   mark is heard exactly once — conservation was never about loops); P13 (**the
+   figure-eight's charge is a dial**: it neither splits nor cancels — it
+   DELOCALIZES onto the shared mark, charge ≡ −(s₁+n) mod m, every class attained,
+   zero exactly at the rest value _05's algebra pinned: P6 was the zero-fiber all
+   along); P14 (disjoint control: charges add and are separately conserved, each an
+   instance of the kernel's theorem). One shared mark converts a conserved
+   obstruction into a controllable one — the boundary between invariant and
+   instrument is one edge wide. Exit 0 iff (★), P12–P14 and their controls.
 
-- The global tick is still exogenous (five files have bowed: _02–_06 — none has paid).
-- HANDOFF, named in _06: `defect_sum_invariant` (Σ defects ≡ −L mod m, all states,
-  all m, L) belongs in `RingRest.lean` — one telescoping induction, kernel's court.
-- NEW (Kelly's direction): the defect charge of a FIGURE-EIGHT — _05 showed sharing
-  dissolves the obstruction under sum; does the charge split, cancel, or become
-  combiner-owned? Untouched.
-- The combiner audit is still partial; the Galois question from _05 stands.
+## Open moves (after _07)
+
+- The global tick is still exogenous (six files have bowed: _02–_07 — none has paid).
+- ~~HANDOFF: `defect_sum_invariant`~~ — PAID in _07 / RingRest.lean Section 2.
+- ~~Figure-eight charge~~ — ANSWERED in _07: delocalizes onto the shared mark, becomes a dial.
+- NEW, named and closable: (★) the graph-general charge formula for arbitrary finite
+  wirings under sum — one telescoping sum; `defect_sum_invariant` is its permutation
+  case. Either court may take it.
+- Genuinely open: the max-combiner charge (max is not algebra — no (★) exists yet);
+  the combiner survey; the Galois question from _05.
 - No one has audited the audit of the audit. (Recurse. Stop at the visible edge.)
 
 ## Running
@@ -126,6 +152,7 @@ julia emergence/emergence_03.jl        # exit 0 iff all self-checks pass
 julia emergence/emergence_04.jl        # exit 0 iff P1–P4 hold
 julia emergence/emergence_05.jl        # exit 0 iff P6/P8 hold
 julia emergence/emergence_06.jl        # exit 0 iff P9–P11 hold
+julia emergence/emergence_07.jl        # exit 0 iff (★), P12–P14 + controls hold
 lean  emergence/lean/RingRest.lean     # exit 0 iff kernel accepts; prints axiom ledger
 julia audits/emergence_checks_by_stranger.jl   # exit 0 iff audit passes
 julia julia-vs-lean/run_all.jl         # exit 0 iff all 9-carrier checks pass
