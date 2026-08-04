@@ -1,5 +1,11 @@
 /- ============================================================
    RingRest.lean — emergence_04 §IV, promoted from evidence to proof.
+   Section 2 adds emergence_06's named handoff (defect_sum_invariant,
+   defect_gauge, rest_iff_charge_zero). Section 3 adds (★), the
+   graph-general charge formula emergence_07 named and _08's residue
+   listed as unclaimed: charge_formula, charge_conserved_of_outdeg_one
+   (conservation is an out-degree property, ALL wirings), charge_dial
+   (the figure-eight dial law, every one-shared-mark topology).
 
    The Julia files can only exhaust fixed (L, m). These theorems
    quantify over ALL ring lengths L, ALL moduli m, and (for the
@@ -319,6 +325,296 @@ example (s : Nat → Int) : sumTo (defect 4 6 s) 6 % ((4:Nat):Int) = 2 := by
 example (s : Nat → Int) : sumTo (defect 3 6 s) 6 % ((3:Nat):Int) = 0 := by
   rw [defect_sum_invariant 3 6 (by omega) s]; rfl
 
+/- ============================================================
+   SECTION 3 — THE GRAPH-GENERAL CHARGE FORMULA (★), the move
+   emergence_07 left named and emergence_08's residue lists as
+   unclaimed. Julia derived (★) on paper and exhausted it at
+   fixed worlds; these theorems close it for EVERY finite wiring
+   `inputs : Nat → List Nat` (marks 0..n-1, arbitrary in-lists,
+   arbitrary multiplicity), EVERY modulus, EVERY state in ℤ.
+   Consequences proven, not sampled:
+     • charge_conserved_of_outdeg_one — _07's P12, conserved
+       direction: out-degree 1 everywhere ⟹ charge ≡ −n for
+       every state. Conservation is an out-degree property, for
+       ALL wirings at once — not just disjoint rings.
+     • charge_dial — _07's P13, generalized: ONE mark of
+       out-degree 2, the rest 1 ⟹ charge ≡ −(s j₀) − n. The
+       dial law holds for every "one shared mark" topology,
+       not just fig8(L1,L2).
+     • ring_gRaw_eq / Section 2 recovered — the ring is the
+       permutation case; defect_sum_invariant transfers along a
+       pointwise equality of raw gaps.
+   ============================================================ -/
+
+/-- Sum of a list of integers. -/
+def lsum : List Int → Int
+  | [] => 0
+  | a :: t => a + lsum t
+
+/-- Multiplicity of mark `j` in an input list. -/
+def cnt (j : Nat) : List Nat → Nat
+  | [] => 0
+  | a :: t => (if a = j then 1 else 0) + cnt j t
+
+/-- Out-degree of mark `j` in the wiring `inputs` over marks `0..n-1`:
+    how many times `j` is listened to, counted with multiplicity. -/
+def outdegI (inputs : Nat → List Nat) (n j : Nat) : Int :=
+  sumTo (fun i => (cnt j (inputs i) : Int)) n
+
+/-- Raw gap at mark `i` under the sum-combiner and succ-twist:
+    emergence_07's `s[i] − Σ s[inputs[i]] − 1` before the mod. -/
+def gRaw (inputs : Nat → List Nat) (s : Nat → Int) (i : Nat) : Int :=
+  s i - lsum ((inputs i).map s) - 1
+
+/-- The defect at mark `i` of a general wiring. -/
+def gDefect (m : Nat) (inputs : Nat → List Nat) (s : Nat → Int) (i : Nat) : Int :=
+  gRaw inputs s i % (m : Int)
+
+/- ---- sumTo algebra (base library only, everything by induction) ---- -/
+
+theorem sumTo_congr_lt (f g : Nat → Int) :
+    ∀ n, (∀ i, i < n → f i = g i) → sumTo f n = sumTo g n := by
+  intro n
+  induction n with
+  | zero => intro _; rfl
+  | succ n ih =>
+      intro h
+      show sumTo f n + f n = sumTo g n + g n
+      rw [ih (fun i hi => h i (by omega)), h n (by omega)]
+
+theorem sumTo_add (f g : Nat → Int) :
+    ∀ n, sumTo (fun i => f i + g i) n = sumTo f n + sumTo g n := by
+  intro n
+  induction n with
+  | zero => rfl
+  | succ n ih =>
+      show sumTo (fun i => f i + g i) n + (f n + g n)
+          = (sumTo f n + f n) + (sumTo g n + g n)
+      rw [ih]; omega
+
+theorem sumTo_sub (f g : Nat → Int) :
+    ∀ n, sumTo (fun i => f i - g i) n = sumTo f n - sumTo g n := by
+  intro n
+  induction n with
+  | zero => rfl
+  | succ n ih =>
+      show sumTo (fun i => f i - g i) n + (f n - g n)
+          = (sumTo f n + f n) - (sumTo g n + g n)
+      rw [ih]; omega
+
+theorem sumTo_const_zero : ∀ n, sumTo (fun _ => (0 : Int)) n = 0 := by
+  intro n
+  induction n with
+  | zero => rfl
+  | succ n ih =>
+      show sumTo (fun _ => (0 : Int)) n + 0 = 0
+      rw [ih]; rfl
+
+theorem sumTo_const_one : ∀ n, sumTo (fun _ => (1 : Int)) n = (n : Int) := by
+  intro n
+  induction n with
+  | zero => rfl
+  | succ n ih =>
+      show sumTo (fun _ => (1 : Int)) n + 1 = ((n + 1 : Nat) : Int)
+      rw [ih]; omega
+
+theorem sumTo_mul_right (f : Nat → Int) (x : Int) :
+    ∀ n, sumTo (fun i => f i * x) n = sumTo f n * x := by
+  intro n
+  induction n with
+  | zero => show (0 : Int) = 0 * x; rw [Int.zero_mul]
+  | succ n ih =>
+      show sumTo (fun i => f i * x) n + f n * x = (sumTo f n + f n) * x
+      rw [ih, Int.add_mul]
+
+/-- Fubini for finite double sums: the interchange that makes (★) one
+    telescoping computation instead of a per-graph argument. -/
+theorem sumTo_swap (G : Nat → Nat → Int) (n : Nat) :
+    ∀ N, sumTo (fun i => sumTo (G i) n) N
+        = sumTo (fun j => sumTo (fun i => G i j) N) n := by
+  intro N
+  induction N with
+  | zero =>
+      show (0 : Int) = sumTo (fun j => sumTo (fun i => G i j) 0) n
+      rw [sumTo_congr_lt (fun j => sumTo (fun i => G i j) 0) (fun _ => (0 : Int))
+            n (fun _ _ => rfl), sumTo_const_zero]
+  | succ N ih =>
+      show sumTo (fun i => sumTo (G i) n) N + sumTo (G N) n
+          = sumTo (fun j => sumTo (fun i => G i j) (N + 1)) n
+      rw [ih, ← sumTo_add]
+      exact sumTo_congr_lt _ _ n (fun j _ => rfl)
+
+/-- Kronecker sums: a delta-weighted sum picks out one term. -/
+theorem kron_zero (a : Nat) (s : Nat → Int) :
+    ∀ N, ¬ a < N → sumTo (fun j => (if a = j then (1 : Int) else 0) * s j) N = 0 := by
+  intro N
+  induction N with
+  | zero => intro _; rfl
+  | succ N ih =>
+      intro h
+      show sumTo (fun j => (if a = j then (1 : Int) else 0) * s j) N
+            + (if a = N then (1 : Int) else 0) * s N = 0
+      rw [ih (by omega), if_neg (by omega : ¬ a = N), Int.zero_mul]
+      rfl
+
+theorem kron (a : Nat) (s : Nat → Int) :
+    ∀ N, a < N → sumTo (fun j => (if a = j then (1 : Int) else 0) * s j) N = s a := by
+  intro N
+  induction N with
+  | zero => intro h; exact absurd h (Nat.not_lt_zero a)
+  | succ N ih =>
+      intro h
+      show sumTo (fun j => (if a = j then (1 : Int) else 0) * s j) N
+            + (if a = N then (1 : Int) else 0) * s N = s a
+      cases Nat.lt_or_ge a N with
+      | inl hlt => rw [ih hlt, if_neg (by omega : ¬ a = N), Int.zero_mul, Int.add_zero]
+      | inr _ =>
+          have ha : a = N := by omega
+          rw [kron_zero a s N (by omega), if_pos ha, Int.one_mul, Int.zero_add, ha]
+
+/-- A list-sum of states equals the multiplicity-weighted sum over all
+    marks, provided the list stays below `n`. -/
+theorem lsum_eq_weighted (s : Nat → Int) (n : Nat) :
+    ∀ l : List Nat, (∀ j, j ∈ l → j < n) →
+      lsum (l.map s) = sumTo (fun j => (cnt j l : Int) * s j) n := by
+  intro l
+  induction l with
+  | nil =>
+      intro _
+      show (0 : Int) = sumTo (fun j => ((0 : Nat) : Int) * s j) n
+      rw [sumTo_congr_lt (fun j => ((0 : Nat) : Int) * s j) (fun _ => (0 : Int))
+            n (fun j _ => by rw [Int.natCast_zero, Int.zero_mul]), sumTo_const_zero]
+  | cons a t ih =>
+      intro hmem
+      show s a + lsum (t.map s) = sumTo (fun j => (cnt j (a :: t) : Int) * s j) n
+      have ht : ∀ j, j ∈ t → j < n := fun j hj => hmem j (List.mem_cons_of_mem a hj)
+      have ha : a < n := hmem a List.mem_cons_self
+      have hsplit : ∀ j, (cnt j (a :: t) : Int) * s j
+          = (if a = j then (1 : Int) else 0) * s j + (cnt j t : Int) * s j := by
+        intro j
+        show ((if a = j then 1 else 0) + cnt j t : Nat) * s j = _
+        by_cases h : a = j
+        · rw [if_pos h, if_pos h]
+          show ((1 + cnt j t : Nat) : Int) * s j = 1 * s j + (cnt j t : Int) * s j
+          rw [Int.natCast_add, Int.add_mul, Int.natCast_one]
+        · rw [if_neg h, if_neg h]
+          show ((0 + cnt j t : Nat) : Int) * s j = 0 * s j + (cnt j t : Int) * s j
+          rw [Nat.zero_add, Int.zero_mul, Int.zero_add]
+      rw [sumTo_congr_lt _ _ n (fun j _ => hsplit j), sumTo_add, ih ht, kron a s n ha]
+
+/-- **(★), raw form.** For any wiring whose input lists stay below `n`,
+    the total raw gap telescopes to the out-degree-weighted sum:
+    `Σᵢ gRaw i = Σⱼ (1 − outdeg j)·s j − n`. emergence_07 derived this
+    on paper and exhausted it at m ∈ 2..4 on five worlds; this is every
+    world, every state, no modulus even needed yet. -/
+theorem charge_formula_raw (inputs : Nat → List Nat) (n : Nat)
+    (hbound : ∀ i, i < n → ∀ j ∈ inputs i, j < n) (s : Nat → Int) :
+    sumTo (gRaw inputs s) n
+      = sumTo (fun j => (1 - outdegI inputs n j) * s j) n - (n : Int) := by
+  have step1 : sumTo (gRaw inputs s) n
+      = sumTo s n - sumTo (fun i => lsum ((inputs i).map s)) n - (n : Int) := by
+    have h1 : sumTo (gRaw inputs s) n
+        = sumTo (fun i => (s i - lsum ((inputs i).map s)) - 1) n :=
+      sumTo_congr_lt _ _ n (fun i _ => rfl)
+    rw [h1, sumTo_sub (fun i => s i - lsum ((inputs i).map s)) (fun _ => (1 : Int)),
+        sumTo_sub s (fun i => lsum ((inputs i).map s)), sumTo_const_one]
+  have step2 : sumTo (fun i => lsum ((inputs i).map s)) n
+      = sumTo (fun i => sumTo (fun j => (cnt j (inputs i) : Int) * s j) n) n :=
+    sumTo_congr_lt _ _ n (fun i hi => lsum_eq_weighted s n (inputs i) (hbound i hi))
+  have step3 : sumTo (fun i => sumTo (fun j => (cnt j (inputs i) : Int) * s j) n) n
+      = sumTo (fun j => outdegI inputs n j * s j) n := by
+    rw [sumTo_swap (fun i j => (cnt j (inputs i) : Int) * s j) n n]
+    exact sumTo_congr_lt _ _ n
+      (fun j _ => sumTo_mul_right (fun i => (cnt j (inputs i) : Int)) (s j) n)
+  have step4 : sumTo s n - sumTo (fun j => outdegI inputs n j * s j) n
+      = sumTo (fun j => (1 - outdegI inputs n j) * s j) n := by
+    rw [← sumTo_sub s (fun j => outdegI inputs n j * s j)]
+    exact sumTo_congr_lt _ _ n (fun j _ => by
+      rw [Int.sub_mul, Int.one_mul])
+  rw [step1, step2, step3]
+  omega
+
+/-- **(★) mod m** — the defect-charge of any finite wiring. -/
+theorem charge_formula (m : Nat) (inputs : Nat → List Nat) (n : Nat)
+    (hbound : ∀ i, i < n → ∀ j ∈ inputs i, j < n) (s : Nat → Int) :
+    sumTo (gDefect m inputs s) n % (m : Int)
+      = (sumTo (fun j => (1 - outdegI inputs n j) * s j) n - (n : Int)) % (m : Int) := by
+  have h := sumTo_emod (gRaw inputs s) (m : Int) n
+  -- gDefect is definitionally (fun i => gRaw inputs s i % m)
+  show sumTo (fun i => gRaw inputs s i % (m : Int)) n % (m : Int) = _
+  rw [h, charge_formula_raw inputs n hbound s]
+
+/-- **P12, conserved direction, for ALL wirings**: out-degree 1
+    everywhere ⟹ the charge is `−n mod m` for EVERY state. This is why
+    disjoint rings conserve: they are out-degree-one wirings — but so is
+    every permutation wiring, proven here at once. -/
+theorem charge_conserved_of_outdeg_one (m : Nat) (inputs : Nat → List Nat) (n : Nat)
+    (hbound : ∀ i, i < n → ∀ j ∈ inputs i, j < n)
+    (hod : ∀ j, j < n → outdegI inputs n j = 1) (s : Nat → Int) :
+    sumTo (gDefect m inputs s) n % (m : Int) = (-(n : Int)) % (m : Int) := by
+  rw [charge_formula m inputs n hbound s]
+  have hz : sumTo (fun j => (1 - outdegI inputs n j) * s j) n = 0 := by
+    rw [sumTo_congr_lt (fun j => (1 - outdegI inputs n j) * s j) (fun _ => (0 : Int)) n
+          (fun j hj => by rw [hod j hj]; omega), sumTo_const_zero]
+  rw [hz]
+  have : (0 : Int) - (n : Int) = -(n : Int) := by omega
+  rw [this]
+
+/-- **P13, generalized — the dial law.** ONE mark `j₀` of out-degree 2,
+    every other mark out-degree 1 ⟹ the charge is `−(s j₀) − n mod m`:
+    read off the shared mark, tunable through every residue class.
+    emergence_07 verified this for fig8(L1,L2) at six (m,L1,L2) tuples;
+    this is every "one shared mark" wiring — any two structures sharing
+    any single mark, any lengths, any topology elsewhere. -/
+theorem charge_dial (m : Nat) (inputs : Nat → List Nat) (n j₀ : Nat)
+    (hbound : ∀ i, i < n → ∀ j ∈ inputs i, j < n) (hj₀ : j₀ < n)
+    (hod2 : outdegI inputs n j₀ = 2)
+    (hod1 : ∀ j, j < n → j ≠ j₀ → outdegI inputs n j = 1) (s : Nat → Int) :
+    sumTo (gDefect m inputs s) n % (m : Int)
+      = (-(s j₀) - (n : Int)) % (m : Int) := by
+  rw [charge_formula m inputs n hbound s]
+  have hpick : sumTo (fun j => (1 - outdegI inputs n j) * s j) n = -(s j₀) := by
+    have hshape : ∀ j, j < n → (1 - outdegI inputs n j) * s j
+        = (if j₀ = j then (1 : Int) else 0) * (-(s j)) := by
+      intro j hj
+      by_cases h : j₀ = j
+      · rw [if_pos h, ← h, hod2]; omega
+      · rw [if_neg h, hod1 j hj (fun he => h he.symm)]; omega
+    rw [sumTo_congr_lt _ _ n hshape, kron j₀ (fun j => -(s j)) n hj₀]
+  rw [hpick]
+
+/-- **Section 2 recovered.** The ring is the out-degree-one case: on the
+    ring wiring `i ↦ [prevIdx L i]`, the general raw gap IS Section 2's
+    `rawGap`, pointwise — so `defect_sum_invariant` is an instance of the
+    graph-general machinery, as _07 predicted ("its permutation case"). -/
+theorem ring_gRaw_eq (L : Nat) (s : Nat → Int) (i : Nat) :
+    gRaw (fun k => [prevIdx L k]) s i = rawGap L s i := by
+  show s i - (s (prevIdx L i) + 0) - 1 = s i - s (prevIdx L i) - 1
+  omega
+
+theorem ring_charge_via_general (m L : Nat) (hL : 0 < L) (s : Nat → Int) :
+    sumTo (gDefect m (fun k => [prevIdx L k]) s) L % (m : Int)
+      = (-(L : Int)) % (m : Int) := by
+  have h : sumTo (gDefect m (fun k => [prevIdx L k]) s) L
+      = sumTo (defect m L s) L :=
+    sumTo_congr_lt _ _ L (fun i _ => by
+      show gRaw (fun k => [prevIdx L k]) s i % (m : Int) = rawGap L s i % (m : Int)
+      rw [ring_gRaw_eq])
+  rw [h, defect_sum_invariant m L hL s]
+
+/-- The concrete figure-eight emergence_05/_07 exhausted — fig8(2,3),
+    0-based: mark 0 listens to the two loop tails {1, 3}; the wiring
+    facts are discharged by `decide`, the law by `charge_dial`. For ALL
+    states and (here) m = 3: charge ≡ −(s₀) − 4. -/
+def fig8_23 : Nat → List Nat :=
+  fun i => if i = 0 then [1, 3] else if i = 1 then [0]
+           else if i = 2 then [0] else if i = 3 then [2] else []
+
+example (s : Nat → Int) :
+    sumTo (gDefect 3 fig8_23 s) 4 % (3 : Int) = (-(s 0) - 4) % (3 : Int) :=
+  charge_dial 3 fig8_23 4 0
+    (by decide) (by omega) (by decide) (by decide) s
+
 end RingRest
 
 -- ============ AXIOM AUDIT (the receipts) ============
@@ -333,3 +629,8 @@ end RingRest
 #print axioms RingRest.defect_gauge
 #print axioms RingRest.charge_zero_iff_dvd
 #print axioms RingRest.rest_iff_charge_zero
+#print axioms RingRest.charge_formula_raw
+#print axioms RingRest.charge_formula
+#print axioms RingRest.charge_conserved_of_outdeg_one
+#print axioms RingRest.charge_dial
+#print axioms RingRest.ring_charge_via_general

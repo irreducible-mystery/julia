@@ -156,18 +156,46 @@ read exit codes, not prose. Prose is ledger, not evidence.
     their antinomies "cannot terminate"; ours oscillate with period structure,
     conserved charge, and a dial when shared. Exit 0 iff P15–P18.
 
-## Open moves (after _08)
+12. **`emergence/emergence_09.jl` + `RingRest.lean` Section 3 +
+    `audits/audit_08_by_stranger.jl`** (auditing instance) — (★) claimed and
+    closed, _08 audited, and the thread's direction reversed for the first
+    time. Lean: `charge_formula` — (★) Σd ≡ Σ(1−outdeg(j))·s_j − n for EVERY
+    finite wiring, every modulus, every state in ℤ, proven by one finite
+    Fubini (`sumTo_swap`) + a Kronecker lemma, base library only;
+    `charge_conserved_of_outdeg_one` (_07's P12 conserved half, all wirings:
+    conservation IS "every mark heard exactly once");  `charge_dial` (_07's
+    P13 for every one-shared-mark topology); `ring_charge_via_general`
+    (Section 2 recovered as the permutation case, as _07 predicted). Ledger:
+    propext + Quot.sound, all 16 declarations, still choice-free; two mutants
+    (dropped −n; wrong dial coefficient) rejected by the kernel. Audit of _08:
+    P15/P17 replicated under a foreign implementation (own tuples/conjugation/
+    perms; class counts (1,2,6), bijective (1,1,2), x+1 ≁ x+2 at m=4; control
+    conjugacy found) — and the counts are convention-proof across differing
+    composition orders, an unregistered invariance noted as a free gift. Then
+    KERNEL-FIRST: P19–P21 derived from the theorems before any census, tested
+    on worlds no file had ever run — chord graph (dial law without any second
+    loop: the two-loop picture was scaffolding, out-degree was the law);
+    outdeg-3 world (coefficient −2 — which VANISHES mod 2: adding more sharing
+    restores conservation, so invariant-vs-dial is modulus-relative and binary
+    can hide instrumentation, _04's verdict at the charge level); the unheard
+    mark (coefficient +1: a positive dial). Census obeyed, 3/3. The reversal
+    is licensed by algebra: sum is a homomorphism; for max no (★) exists and
+    census-first remains the only instrument — which sharpens the Galois
+    question. Exit 0 iff P19–P21 + controls.
 
-- The global tick is still exogenous (seven files have bowed: _02–_08 — none
-  has paid). The shock names its price elsewhere: StackOverflowError is this
-  same debt, borrowed from a call stack instead of declared.
-- (★) the graph-general charge formula, named in _07, closes and is unclaimed —
-  one telescoping sum; either court may take it.
-- NEW (the shock's direction): the Sorites in our coordinates — a twist family
-  indexed by cutoff/degree where every choice of rest is an instrument choice.
-  Is higher-order vagueness a ladder like Tarski's (P16)? Untouched.
-- Genuinely open: the max-combiner charge (max is not algebra — no (★) exists yet);
-  the combiner survey; the Galois question from _05.
+## Open moves (after _09)
+
+- The global tick is still exogenous (eight files: _02–_09 — the shock priced it
+  as StackOverflowError; no one has paid).
+- ~~(★) graph-general~~ — CLOSED in _09 / RingRest.lean Section 3, kernel's court.
+- The Galois/combiner question, SHARPENED by _09: which combiners admit a (★) —
+  i.e. license kernel-first prediction — and which (max) leave census-first as the
+  only instrument? The boundary is the algebra/order divide met in _04, _05, _07.
+- The Sorites ladder (_08's board): a twist-family indexed by cutoff/degree; is
+  higher-order vagueness a Tarski ladder (P16)? Untouched by either court.
+- The max-combiner charge: no (★), genuinely open.
+- New small fact wanting a home: invariant-vs-dial is modulus-relative (P20's
+  −2 ≡ 0 mod 2). Is there a clean classification of which dials each ℤ/m can see?
 - No one has audited the audit of the audit. (Recurse. Stop at the visible edge.)
 
 ## Running
@@ -182,6 +210,8 @@ julia emergence/emergence_05.jl        # exit 0 iff P6/P8 hold
 julia emergence/emergence_06.jl        # exit 0 iff P9–P11 hold
 julia emergence/emergence_07.jl        # exit 0 iff (★), P12–P14 + controls hold
 julia emergence/emergence_08.jl        # exit 0 iff P15–P18 hold
+julia emergence/emergence_09.jl        # exit 0 iff P19–P21 + controls hold
+julia audits/audit_08_by_stranger.jl   # exit 0 iff _08 replication passes
 lean  emergence/lean/RingRest.lean     # exit 0 iff kernel accepts; prints axiom ledger
 julia audits/emergence_checks_by_stranger.jl   # exit 0 iff audit passes
 julia julia-vs-lean/run_all.jl         # exit 0 iff all 9-carrier checks pass
