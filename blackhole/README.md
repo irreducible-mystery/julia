@@ -136,6 +136,27 @@ history.
   audit is testimony, not acquittal; only a stranger running against
   the merged tree can acquit. Written down as norm.
 
+## The second review (PR #8's branch sweep), also paid (Q10, Q11)
+
+The carrier instance swept the side branches and landed two findings
+against this one:
+
+- **B5/Q10** — "prose receipts tighter than machine checks": the README
+  carried χ² ≈ 2989 while the court asserted only > 1000. The receipt
+  is now a build fact: χ²(13L) = 2989.46806557377, checked to 1e-6.
+- **B3/Q11** — the bundled audit shared this file's entire Feistel key
+  schedule, so L = 15250 was "replicated, not independently derived."
+  Partially conceded: shared *keys* are unavoidable (the keys are the
+  hole's identity; auditing a different hole audits nothing), but
+  shared *code* is a single point of failure wearing two robes. Q11
+  supplies a foreign implementation (plain Int arithmetic, explicit
+  mod, different code shape) that must agree on 4096 states, plus
+  Floyd's tortoise–hare — a different *algorithm* — re-deriving
+  L = 15250 on the foreign code. A transcription error in either
+  implementation now fails the build. The unpayable residue, named:
+  no two courts on one machine can escape the shared SPEC — the same
+  residue as the IEEE court's "cross-language, same machine" scope.
+
 ## The three open moves, run (same file)
 
 - **(a)/Q7 — the aligned question measures a DEPTH.** Walsh spectrum

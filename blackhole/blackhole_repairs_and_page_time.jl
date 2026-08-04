@@ -132,6 +132,14 @@
 #      BOTH null slopes negative; at 1.5 r_s it does not; the dark
 #      star's outgoing slope is +1 at every radius sampled — no
 #      trapped surface anywhere in the Michell family.
+#   Q10 (hard, added when PR #8's branch sweep landed B5 against this
+#      branch) the README's χ² ≈ 2989 prose receipt becomes a build
+#      fact: χ²(13L) = 2989.46806557377 within 1e-6.
+#   Q11 (hard, B3) a FOREIGN implementation of the Feistel (plain Int
+#      arithmetic, different code shape, shared keys only — the keys
+#      are the hole's identity) agrees with the production one on
+#      4096 states, and Floyd's tortoise–hare on the foreign code
+#      re-derives L = 15250 against the brute-force court.
 #
 # Prose is ledger; the exit code is the evidence.
 # =====================================================================
@@ -491,6 +499,94 @@ let
     println("        promotion: from 'the integrals look bad' to a predicate")
     println("        whose truth forces a singularity. courts should end as")
     println("        predicates when they can. this one could.")
+end
+
+# ---------------------------------------------------------- Q10, Q11
+# SECOND REVIEW PAID (the carrier instance's branch sweep, PR #8,
+# findings B3 and B5 against this branch — both replicated here
+# before repair):
+#
+#   B5: the README commits χ² ≈ 2989 as a prose receipt while the
+#       court only asserts > 1000 — "prose receipts tighter than
+#       machine checks." Replicated: χ²(13L) = 2989.46806557377.
+#       Q10 pins the number to the build: the receipt is now an
+#       exit-code fact, not a memory.
+#
+#   B3: the bundled audit shares this file's entire Feistel key
+#       schedule, so "L = 15250 is replicated, not independently
+#       derived: a transcription error would replicate identically
+#       in both courts." The keys themselves must be shared — they
+#       are the hole's identity; an audit of a DIFFERENT hole audits
+#       nothing. What can be foreign is the IMPLEMENTATION and the
+#       ALGORITHM. Q11 supplies both: a second Feistel written in
+#       plain Int arithmetic (explicit mod 65536 / mod 256, no UInt16
+#       operators, different mixing-code shape) must agree with the
+#       production one on 4096 states, and Floyd's tortoise-hare (a
+#       different algorithm from the brute-force walk) must re-derive
+#       L = 15250 on the foreign implementation. A transcription
+#       error in either court now fails the OTHER court's build.
+
+println("Q10 (B5) the prose receipt, pinned to the build")
+
+let L = cyclen(0x0007)
+    c2 = chi2_256(radiate(0x0007, 13L))
+    ok("Q10 χ²(13L) = $c2 — the README's 2989 is now a machine fact " *
+       "(|χ² − 2989.46806557377| < 1e-6)",
+       abs(c2 - 2989.46806557377) < 1e-6)
+    println("        a receipt the build cannot reproduce is testimony;")
+    println("        this one is now evidence. (its meaning is still Q4's:")
+    println("        13× the acquittal — an exhibit of recurrence, not an")
+    println("        independent conviction.)")
+end
+
+println("Q11 (B3) the foreign implementation: same hole, different hands")
+
+# plain-Int Feistel: no UInt16 arithmetic, explicit modular reduction,
+# different code shape. Only the KEY SCHEDULE is shared — it is the
+# hole's identity.
+function frnd_int(x::Int, k::Int)
+    h = mod((xor(x, k)) * 0x2545, 65536)
+    h = xor(h, h ÷ 128)             # >> 7 as integer division
+    mod(h * 0x9e37, 65536)
+end
+function feistel_int(x::Int, keys_int::Vector{Int})
+    L = x ÷ 256
+    R = mod(x, 256)
+    for k in keys_int
+        L, R = R, xor(L, mod(frnd_int(R, k), 256))
+    end
+    256L + R
+end
+
+let keys_int = Int[0x3a7f, 0x11d4, 0x9b02, 0x77e1, 0x05c9, 0xf24a]
+    agree = all(feistel_int(Int(x), keys_int) == Int(feistel(UInt16(x)))
+                for x in 0x0000:0x0fff)
+
+    # Floyd tortoise–hare on the FOREIGN implementation
+    f(x) = feistel_int(x, keys_int)
+    tort, hare = f(7), f(f(7))
+    while tort != hare
+        tort = f(tort); hare = f(f(hare))
+    end
+    lam = 1
+    hare = f(tort)
+    while tort != hare
+        hare = f(hare); lam += 1
+    end
+
+    ok("Q11 foreign Feistel agrees on 4096 states ($agree); Floyd on the " *
+       "foreign code re-derives the period: λ = $lam (brute-force court: " *
+       "$(cyclen(0x0007)))",
+       agree && lam == cyclen(0x0007))
+    println("        the carrier instance's point stands as method: shared")
+    println("        keys are the hole, but shared CODE is a single point")
+    println("        of failure wearing two robes. now a transcription")
+    println("        error in either implementation fails this build.")
+    println("        (what remains honestly shared: the key schedule and")
+    println("        the SPEC. no two courts on one machine can escape")
+    println("        the spec — that residue is B3's unpayable core, and")
+    println("        it is the same residue as the IEEE court's 'cross-")
+    println("        language, same machine' scope line.)")
 end
 
 # --------------------------------------------------------------- coda
