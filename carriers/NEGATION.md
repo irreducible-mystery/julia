@@ -1,16 +1,20 @@
 # Negation, carried across five hosts
 
 Runnable: `bash carriers/run_negation_census.sh` (18/18, exit 0). Halves:
-`negation_census.exs` (108 checks), `negation_census.rs` (91), the SQL K3
+`negation_census.exs` (120 checks), `negation_census.rs` (91), the SQL K3
 court and the Lean axiom ledger inline in the driver.
 
 Kelly asked to look harder at negation. It turned out to be the seam where
-two things this repo named separately are one theorem, and where every host's
+two things this repo named separately share a mechanism, and where every host's
 hidden commitments become visible at once.
+
+**Read the ERRATUM near the end before §1.** My first statement of the duality
+was an over-claim generalized from a single world; the correction is convicted
+by this file's own checks.
 
 ---
 
-## 1. The duality: P26 and "neg regains rest" are one fact
+## 1. The duality: P26 and "neg regains rest" (see ERRATUM — narrower than stated)
 
 On ℤ/m let φ(x) = 2x. Then
 
@@ -148,6 +152,46 @@ And NaN closes the circle: it is not a fixed point of negation *and* it is not
 self-equal — the value that breaks reflexivity is the same value negation
 cannot pin down. That is the `f64: PartialEq but not Eq` finding from carrier
 #13, arriving from the negation side.
+
+
+---
+
+## ERRATUM — the duality above is narrower than I claimed
+
+Convicted by my own court (`negation_census.exs`, checks `N1e`/`N1f`), and the
+checks fail if the over-claim is ever restored.
+
+I wrote "the dial collapses exactly as much as negation has fixed points" as
+though P26 and `neg_world_rest` were **one theorem**. They are not. The dial's
+collapse is `|ker(×d)| = gcd(d, m)` for `d = 1 − outdeg(j₀)`; negation's fixed
+points are `|ker(×2)| = gcd(2, m)`. Those agree iff `gcd(|d|, m) = gcd(2, m)` —
+an identity **only when d = ±2, i.e. only at out-degree 3**. Measured over
+m = 2..60:
+
+| out-degree | d | moduli where the duality holds |
+|---|---|---|
+| 1 | 0 | 1 / 59 |
+| 2 | −1 | 29 / 59 |
+| **3** | **−2** | **59 / 59** ← the world I generalized from (`w3`) |
+| 4 | −3 | 19 / 59 |
+| 5 | −4 | 44 / 59 |
+
+I checked the duality on `w3` — the one world in the corpus whose shared mark
+has out-degree 3 — and read a general law off a single case. That is the
+`_05` parochialism this thread keeps convicting, committed by me, one file
+after I convicted #10 for checking its vanishing at a single modulus.
+
+**What survives.** Both quantities are `ker`/`im` of multiplication on ℤ/m, so
+both obey `|ker(×k)| · |im(×k)| = m` — checked for k = 1..6, all m ≤ 40. That
+is the first isomorphism theorem applied to **two different multipliers**: a
+shared *mechanism*, not a shared *theorem*. The corrected statement:
+
+> P26's collapse and negation's fixed points are the same invariant evaluated
+> at different multipliers. They coincide exactly at out-degree 3.
+
+Everything downstream is unaffected — the gcd law for P26, the `i8`/`i16`/`i64`
+predictions, the 2×2, the orbit classification. Only the word "one theorem" was
+wrong, and only about worlds that are not `w3`.
 
 ---
 

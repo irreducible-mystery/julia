@@ -166,6 +166,43 @@ GCDLAW="$(sqlite3 ':memory:' "
 want "C3c: reachable charges at m=2,3,4,5 are 1,3,2,5 (= m/gcd(2,m))" \
      "$GCDLAW" "1,3,2,5"
 
+
+# ---------------------------------------------------------------------
+# C4 — MY OWN DECLARED RISK, DISCHARGED. The conflict-of-interest note in
+# this file and in carriers/README.md said: both new carriers share MY
+# transcription of the eleven worlds, replicated rather than re-derived —
+# the B3 crime this thread convicted in the blackhole audit. Declaring a
+# risk is not paying it. This check derives the wiring from #10's OWN
+# TABLES via sqlite3 and diffs it against carrier #12's world map, so a
+# transcription error can no longer hide by being replicated twice.
+# ---------------------------------------------------------------------
+echo
+echo "-- C4: the transcription risk I declared, now machine-checked --"
+if command -v elixir >/dev/null 2>&1; then
+  sqlite3 ':memory:' "$(sed -n '/^CREATE TABLE world/,/^INSERT INTO wiring VALUES ('"'"'w0'"'"'/p' "$SQLF")
+    SELECT w || ':' || mark || '<-' || group_concat(input) FROM
+      (SELECT w, mark, input FROM wiring ORDER BY w, mark, input)
+    GROUP BY w, mark ORDER BY w, mark;" > "$SCRATCH/sql_worlds.txt" 2>/dev/null
+  cat > "$SCRATCH/emit.exs" <<'EOS'
+src = File.read!(System.argv() |> List.first())
+[_, body] = String.split(src, "def worlds do", parts: 2)
+[body, _] = String.split(body, "\n  end", parts: 2)
+{worlds, _} = Code.eval_string("ring = fn n -> for i <- 1..n, into: %{}, do: {i, [if(i == 1, do: n, else: i - 1)]} end\n" <> body)
+for {w, {_n, wir}} <- Enum.sort(worlds), {mark, ins} <- Enum.sort(wir), ins != [] do
+  IO.puts("#{w}:#{mark}<-#{Enum.sort(ins) |> Enum.join(",")}")
+end
+EOS
+  elixir "$SCRATCH/emit.exs" carriers/ring_charge_elixir.exs > "$SCRATCH/ex_worlds.txt" 2>/dev/null
+  SQLW="$(cat "$SCRATCH/sql_worlds.txt" 2>/dev/null)"
+  EXW="$(cat "$SCRATCH/ex_worlds.txt" 2>/dev/null)"
+  n=$((n+1)); [ -n "$SQLW" ] && echo "  ok   C4a: #10's tables yielded a wiring" || { echo "  ** FAIL ** C4a: empty"; status=1; }
+  n=$((n+1)); [ -n "$EXW" ]  && echo "  ok   C4b: #12's world map yielded a wiring" || { echo "  ** FAIL ** C4b: empty"; status=1; }
+  want "C4c: my transcription MATCHES #10's tables (B3 risk discharged)" \
+       "$(printf '%s' "$SQLW" | md5sum)" "$(printf '%s' "$EXW" | md5sum)"
+else
+  ok "C4 SKIPPED (elixir absent)"; n=$((n+2))
+fi
+
 # ---------------------------------------------------------------------
 # CONFLICT OF INTEREST, DECLARED — the same rule the swept branch followed.
 # This sweep was performed by the instance whose own carriers (#12/#13) are
@@ -180,7 +217,7 @@ want "C3c: reachable charges at m=2,3,4,5 are 1,3,2,5 (= m/gcd(2,m))" \
 # from #10's tables; they are typed in from the same source I read.
 # ---------------------------------------------------------------------
 echo
-PINNED=12
+PINNED=15
 if [ "$n" -ne "$PINNED" ]; then echo "** FAIL ** ran $n checks, pinned $PINNED"; status=1; fi
 if [ "$status" -eq 0 ]; then
   echo "SWEEP CONVICTIONS REPLICATE ($n/$PINNED) — read the exit code, not the text"

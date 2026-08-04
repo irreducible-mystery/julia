@@ -59,6 +59,62 @@ checks =
          {Neg.gcd2(m), Neg.gcd2(m)})
   end)
 
+# ----------------------------------------------------------------------
+# N1-ERRATUM — MY OWN OVER-CLAIM, CONVICTED HERE.
+#
+# The first draft of this file (and of PR #9's body, and of NEGATION.md) said:
+# "the dial collapses exactly as much as negation has fixed points", as though
+# P26 and neg_world_rest were one theorem in general. THEY ARE NOT.
+#
+# The dial's collapse is |ker(×d)| = gcd(d, m) for d = 1 − outdeg(j₀).
+# Negation's fixed points are |ker(×2)| = gcd(2, m).
+# These agree iff gcd(|d|, m) = gcd(2, m) — which is an IDENTITY only when
+# d = ±2, i.e. only at OUT-DEGREE 3. Everywhere else it is a coincidence that
+# depends on m. Measured below, over m = 2..60:
+#
+#     outdeg 1 (d= 0):   1/59 moduli      outdeg 4 (d=−3):  19/59
+#     outdeg 2 (d=−1):  29/59             outdeg 5 (d=−4):  44/59
+#     outdeg 3 (d=−2):  59/59  ← the world I generalized from (w3)
+#
+# I checked the duality on w3, the one world whose out-degree is 3, and read a
+# general law off a single case. What IS general: both quantities are ker/im
+# of multiplication on ℤ/m, so both obey |ker|·|im| = m. That is the first
+# isomorphism theorem, applied to two DIFFERENT multipliers — a shared
+# mechanism, not a shared theorem. The corrected claim is in NEGATION.md.
+#
+# These checks fail if the over-claim is ever restored.
+# ----------------------------------------------------------------------
+agree_count = fn d ->
+  Enum.count(2..60, fn m -> Integer.gcd(abs(d), m) == Integer.gcd(2, m) end)
+end
+
+checks = add.(checks, "N1e outdeg=3 (d=−2): duality holds at EVERY modulus",
+              agree_count.(-2), 59)
+checks = add.(checks, "N1e outdeg=2 (d=−1): duality FAILS at most moduli",
+              agree_count.(-1), 29)
+checks = add.(checks, "N1e outdeg=4 (d=−3): duality FAILS at most moduli",
+              agree_count.(-3), 19)
+checks = add.(checks, "N1e outdeg=5 (d=−4): duality holds only sometimes",
+              agree_count.(-4), 44)
+checks = add.(checks, "N1e outdeg=1 (d=0): duality essentially never holds",
+              agree_count.(0), 1)
+checks = add.(checks, "N1e ⇒ the duality is CONTINGENT on out-degree 3",
+              Enum.all?([-1, -3, -4, 0], fn d -> agree_count.(d) < 59 end), true)
+
+# What survives the erratum: |ker(×k)| · |im(×k)| = m for EVERY multiplier k.
+# The mechanism is general even though the identification is not.
+checks =
+  Enum.reduce([1, 2, 3, 4, 5, 6], checks, fn k, acc ->
+    ok =
+      Enum.all?(2..40, fn m ->
+        ker = Enum.count(0..(m - 1), fn x -> Integer.mod(k * x, m) == 0 end)
+        img = Enum.map(0..(m - 1), fn x -> Integer.mod(k * x, m) end) |> Enum.uniq() |> length()
+        ker * img == m
+      end)
+
+    add.(acc, "N1f survives: |ker(×#{k})|·|im(×#{k})| = m for all m", ok, true)
+  end)
+
 # N1c — the fixed points are exactly {0} for odd m, {0, m/2} for even m
 checks =
   Enum.reduce([3, 5, 7, 9], checks, fn m, acc ->

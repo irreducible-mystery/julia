@@ -23,7 +23,7 @@ echo "== N: the duality and the runtime halves =="
 EX="$(elixir negation_census.exs 2>&1)"; EXRC=$?
 EXV="$(printf '%s\n' "$EX" | grep '^VERDICT ' || true)"
 nonempty "Elixir census produced a VERDICT" "$EXV"
-check "Elixir census pinned" "$EXV" "VERDICT mismatches=0 checks=108"
+check "Elixir census pinned" "$EXV" "VERDICT mismatches=0 checks=120"
 check "Elixir census exit"   "$EXRC" "0"
 
 rustc -O negation_census.rs -o "$SCRATCH/neg" 2>"$SCRATCH/e" || { echo "** rustc failed"; cat "$SCRATCH/e"; exit 1; }
