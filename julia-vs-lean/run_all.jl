@@ -154,7 +154,11 @@ function full_sweep()
 end
 
 t = @elapsed s = full_sweep()
-@printf("  swept all 65536 symbols in %.2fs\n", t)
+# F5 repair: wall-clock time is noise, not evidence — never commit it into
+# a receipt. Timing goes to stderr (uncommitted); the receipt line is
+# deterministic.
+@printf(stderr, "  [timing, not evidence] swept in %.2fs\n", t)
+println("  swept all 65536 symbols (timing on stderr; receipt deterministic)")
 println("  |Z3| untwisted           = ", s.zU,     "   (claimed, unproved in Lean: 32)")
 println("  |Z3| conjugation-twisted = ", s.zT,     "   (claimed, unproved in Lean: 64)")
 println("  shared                   = ", s.shared, "   (claimed, unproved in Lean: 8)")

@@ -210,7 +210,9 @@ for (name, comb, tw) in (("succ ∘ max", comb_max, twist_succ),
     println("  ", rpad(name,11), " periods: ", ps)
     println("             classes: ", cs)
 end
-println("  binary baseline (_02, n=12): 6 thing, 40 restless, 14 rest-possible")
+println("  binary baseline (_02, n=12, SEED 3, STREAM-DEPENDENT — F4: seeds")
+println("  4/5 give other triples; this is a property of (rule, n, seed,")
+println("  RNG stream), not of binary): 6 thing, 40 restless, 14 rest-possible")
 println("  Read as found: the succ-faunas breathe in multiples of 3")
 println("  where binary breathed in 2s; the neg-fauna collapses back")
 println("  toward rest and short even rhythm — the involution restored,")

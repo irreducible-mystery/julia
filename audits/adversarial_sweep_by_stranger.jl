@@ -16,6 +16,25 @@
 # replicating (because someone fixed it) fails THIS file — that
 # is correct behavior: audits are point-in-time; re-dating them
 # is the fixer's job, not the auditor's.
+#
+# RE-DATED 2026-08 by the CONVICTED PARTY (conflict of interest
+# declared; next stranger: check the re-dating first). Repairs
+# landed on main in the same commit as this re-dating:
+#   F1  shocks/PARADOX-REPORT.md carries a provenance amendment:
+#       testimony, not evidence, until artifacts are delivered.
+#       (Check flipped: amendment must EXIST.)
+#   F2/F3  _02 grew fail() + exit(exitcode); §II determinism is
+#       now ASSERTED, not printed. (Checks flipped accordingly.
+#       _00/_01 stay channel-free: they predate the discipline
+#       and are kept as the fossil record of it.)
+#   F4  _04's baseline is tagged seed-3/stream-dependent.
+#       (Check flipped: tag must exist.)
+#   F5  timing moved to stderr; receipt regenerated, verified
+#       byte-reproducible on kernel 1.12.6. (Checks flipped:
+#       receipt must NOT contain a timing line, and reruns must
+#       match byte-for-byte.)
+#   F6  remains as merged from the paradoxes branch (repair
+#       landed there pre-merge; conviction preserved here).
 # ------------------------------------------------------------
 # PRE-REGISTERED FINDINGS (each hard; any miss fails this build):
 #   F1  CONSTITUTIONAL: shocks/PARADOX-REPORT.md cites at least
@@ -111,8 +130,10 @@ let cited = ["01_antinomies.jl","02_mathematical.jl","03_probability.jl",
     anypresent = any(isfile(joinpath(root, "shocks", c)) for c in cited)
     allcited   || fail("F1: report no longer cites the five artifacts")
     anypresent && fail("F1: artifacts exist now — finding stale, re-date the audit")
+    occursin("PROVENANCE AMENDMENT", report) ||
+        fail("F1: provenance amendment missing — repair reverted, re-convict")
     (allcited && !anypresent) &&
-        pass("five artifacts cited, zero present — prose backed by prose")
+        pass("five artifacts cited, zero present — amendment in place: testimony, not evidence")
 end
 
 # --- F2: files that cannot lose --------------------------------------
@@ -126,10 +147,12 @@ let s00 = rd("emergence/emergence_00.jl"), s01 = rd("emergence/emergence_01.jl")
             pass("$n has no fail()/exit discipline — its exit 0 cannot be evidence")
         end
     end
-    if occursin("determined = all(", s02) && !occursin("fail(\"", s02)
-        pass("_02 computes `determined` and only prints it — never asserted")
+    # RE-DATED: repair landed — _02 must now ASSERT determinism
+    if occursin("determined = all(", s02) && occursin("determined || fail(", s02) &&
+       occursin("exit(exitcode)", s02)
+        pass("_02 now asserts §II determinism with a hard failure channel (F2/F3 repair verified)")
     else
-        fail("F2: _02's determinism is now asserted — finding stale")
+        fail("F2: _02's determinism repair missing or reverted")
     end
 end
 
@@ -212,23 +235,24 @@ let c3 = census(3), c4 = census(4), c5 = census(5)
     (c4 != (6,40,14) || c5 != (6,40,14)) ?
         pass("neighboring seeds break the triple — (6,40,14) is a seed-property, not a binary-property") :
         fail("F4: seeds 4 AND 5 also give (6,40,14) — triple is robust, attack missed")
+    # RE-DATED: repair landed — _04 must carry the stream-dependence tag
+    occursin("STREAM-DEPENDENT", rd("emergence/emergence_04.jl")) ?
+        pass("_04 baseline now tagged seed-3/stream-dependent (F4 repair verified)") :
+        fail("F4: stream-dependence tag missing from _04 — repair reverted")
 end
 
 # --- F5: the unverifiable receipt -----------------------------------------
 println("\nF5  julia-vs-lean: a receipt that can never be re-verified")
 let receipt = rd("julia-vs-lean/run_all_output.txt")
-    occursin(r"swept all 65536 symbols in \d+\.\d+s", receipt) ||
-        fail("F5: timing line gone from receipt — finding stale")
-    fresh = read(`$(Base.julia_cmd()) $(joinpath(root, "julia-vs-lean/run_all.jl"))`, String)
-    strip_t(s) = replace(s, r"in \d+\.\d+s" => "in Xs")
-    rl = split(strip(strip_t(receipt)), '\n')
-    fl = split(strip(strip_t(fresh)), '\n')
-    subst_ok = (rl == fl)
-    raw_diff = (strip(receipt) != strip(fresh))
-    subst_ok ? pass("every substantive receipt line replicates on kernel 1.11.7 (timing masked)") :
-               fail("F5: receipt content does NOT replicate — worse than the timing problem")
-    raw_diff ? pass("raw receipt ≠ raw rerun (timing line) — committed noise makes the receipt unverifiable byte-for-byte") :
-               fail("F5: receipts identical byte-for-byte?! timing must have been removed — finding stale")
+    # RE-DATED: repair landed — timing now goes to stderr, receipt must be
+    # deterministic and byte-reproducible. Checks flipped accordingly.
+    occursin(r"swept all 65536 symbols in \d+\.\d+s", receipt) &&
+        fail("F5: timing line back in receipt — repair reverted, re-convict")
+    fresh = read(pipeline(`$(Base.julia_cmd()) $(joinpath(root, "julia-vs-lean/run_all.jl"))`,
+                          stderr=devnull), String)
+    strip(receipt) == strip(fresh) ?
+        pass("receipt is byte-reproducible (timing on stderr) — F5 repair verified on this kernel") :
+        fail("F5: receipt does not replicate byte-for-byte — regenerate on this kernel or investigate")
 end
 
 # --- F6: the court that could not convict its own constant --------------

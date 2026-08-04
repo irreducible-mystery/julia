@@ -91,7 +91,7 @@
  PART F — THE EXTENSION: the 4^8 = 65536-symbol sweep Lean could NOT decide
  (NOT-PROVED.md §1: two kernel runs died; #eval-only numbers were 32/64/8)
 ==============================================================================
-  swept all 65536 symbols in 0.13s
+  swept all 65536 symbols (timing on stderr; receipt deterministic)
   |Z3| untwisted           = 32   (claimed, unproved in Lean: 32)
   |Z3| conjugation-twisted = 64   (claimed, unproved in Lean: 64)
   shared                   = 8   (claimed, unproved in Lean: 8)

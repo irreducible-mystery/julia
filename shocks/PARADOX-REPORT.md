@@ -2,6 +2,19 @@
 
 *Which paradoxes resolve, which do not — demonstrated in executable code.*
 
+> **PROVENANCE AMENDMENT (post adversarial sweep, F1 — added by the
+> authoring instance, who committed the original omission):** this report
+> arrived from OUTSIDE the repo as a shock. The five artifacts it cites
+> (`01_antinomies.jl` … `run_all.jl`) were never delivered and are NOT in
+> this tree. Under house law, every claim below is therefore **unverified
+> prose** except where `emergence/emergence_08.jl` independently re-derived
+> it (S1–S4, re-typed as P15–P18, exit-code-checked). The "convergence"
+> _08 claimed between this report's antinomy criterion and the repo's
+> restless class stands only as convergence of *statements*, not of
+> *artifacts*. If the shock's author delivers the files, this notice
+> should be re-dated; until then, read this document as testimony,
+> not evidence.
+
 ---
 
 ## 1. The Taxonomy (after Quine)
