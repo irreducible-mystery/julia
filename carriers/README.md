@@ -124,6 +124,55 @@ shared: both hosts' `exp`/`sin`/`cos` round these arguments identically.
 IEEE 754 is a deeper invariant than the language on top of it — the same
 lesson as `_09`'s convention-proof class counts, one level down.
 
+## The invariant census (after `ieee_court.sh` and the branch sweep)
+
+What survives EVERY carrier tried so far, and what belongs to the host —
+compiled from carriers #1–#11, the IEEE court, and the audits of the four
+side branches (`audits/branch_sweep_by_carrier_instance.jl`).
+
+**Carrier-invariant (same machine):**
+- **IEEE 754 double arithmetic, to the bit.** sin(π), cos(π/2), 0.1+0.2,
+  Im(e^{iπ}) are bit-identical in Julia, SBCL, and SQLite (`ieee_court.sh`,
+  8/8); the μ₄ float battery breaks the SAME 13 lines in Julia and CL with
+  bit-identical dirt. Scope: cross-LANGUAGE on one machine; cross-machine
+  is not claimed.
+- **Exhaustive finite counts.** 29/29 battery lines (9 exact carriers ×
+  {Julia, CL} + Lean); 32/64/8 over 4⁸ symbols (Julia + CL); rest ⟺ m|L
+  censuses (Julia + SQL + CL + Lean's kernel); conjugacy class counts
+  (main's _09, convention-proof).
+- **Kleene K3.** Julia `missing` ≡ SQL NULL: same tables, same unique
+  NOT-fixed-point — by documented inheritance, not coincidence.
+- **Congruence classes mod m.** The class is invariant; the representative
+  and the `%` operator are host-owned (floored vs truncated).
+
+**Host-owned (fingerprints — each photographed in a runnable check):**
+- **Integer overflow, four hosts, four policies:** Julia Int64 wraps
+  (ℤ/2⁶⁴); Common Lisp promotes exactly (bignum); SQLite promotes LOSSILY
+  to IEEE double (`typeof → real` — the most treacherous, exactness
+  traded silently for range); PostgreSQL raises (testimony, not run here).
+- **The printer.** SQLite's `printf('%.17g')` renders 0x3FD3333333333334
+  as `0.3` while its `=` still refuses `0.1+0.2 = 0.3`. Same bits, lossy
+  display: a receipt's rendering layer is an instrument, and it can hide
+  dirt the arithmetic faithfully carries.
+- **Equality plurality is universal; its arity is not.** Julia 4, CL 5,
+  SQL 2, Lean 2. Every host splits equality somewhere; no two split it
+  the same way.
+- **Toolchain version splits WITHIN a host** (F7, explore-repos branch):
+  the same Lean file gives 16 clean declarations on 4.32.2 and silently
+  degrades 5 to `sorryAx` on 4.22.0. A verdict is a property of
+  (file, toolchain) — libm apparently converges; kernels demonstrably
+  don't.
+- **RNG streams and wall-clock** (F4 here; `time()`/`rand` in julia2's
+  Part 3): never invariant, only pinnable.
+
+**Anti-invariants (numbers that look portable and aren't):** Berry-class
+counts — any number obtained by quantifying over a carrier's own
+expression space (Berry's 103 vs 100001; julia2's "68 forms", ~40 of
+which collapse to identical S-expressions in Lisp). And the
+reused-integer trap: 65536 means three unrelated things on three branches
+(4⁸ symbols, a Feistel state space, 2¹⁶ pairs) — same integer, different
+objects, no invariance.
+
 ## What was NOT translated, and why (open moves)
 
 - **μ₄ battery in SQL**: blocked on first-class functions. It could be

@@ -212,6 +212,28 @@ read exit codes, not prose. Prose is ledger, not evidence.
       deeper invariant than either language on top of it.
     Full gains/losses/fingerprints ledger in `carriers/README.md`.
 
+14. **`carriers/ieee_court.sh` + `audits/branch_sweep_by_carrier_instance.jl`
+    + `audits/BRANCH-SWEEP-NOTES-by-carrier-instance.md`** (carrier
+    instance) — Kelly's follow-up: *are there other invariants? attack any
+    error or blind spot.* The IEEE court makes #11's unregistered
+    convergence first-class: four double expressions bit-identical across
+    Julia/SBCL/SQLite on one machine (8/8), with two new fingerprints —
+    SQLite's printer renders 0x3FD3333333333334 as `0.3` at `%.17g` while
+    its `=` still refuses it (the display layer is an instrument), and a
+    FOUR-way integer-overflow census: wrap (Julia) / exact-promote (CL) /
+    lossy-float-promote (SQLite) / raise (PostgreSQL, testimony). The
+    branch sweep attacks the four never-audited side branches, runnably:
+    fair-coin's kernel citation dangles (the F1 shape, again — and its
+    coin is re-rollable by `git commit --amend`); the elixir-rust branch
+    is two commits that cancel exactly with zero Elixir/Rust files; the
+    blackhole "independent" audit shares the audited file's entire
+    Feistel key schedule; prose receipts (χ²≈2989) are tighter than their
+    machine checks (>1000); and the _10 slot is double-booked by two
+    branches that don't cite each other. Full census of what survives
+    every carrier vs what belongs to the host: `carriers/README.md`,
+    "The invariant census". Conflict declared: the sweeping instance's own
+    branch remains unattacked — next stranger starts at carriers/.
+
 ## Open moves (after _09)
 
 - The global tick is still exogenous (eight files: _02–_09 — the shock priced it
@@ -274,6 +296,8 @@ lean  emergence/lean/RingRest.lean     # exit 0 iff kernel accepts; prints axiom
 julia audits/emergence_checks_by_stranger.jl   # exit 0 iff audit passes
 julia julia-vs-lean/run_all.jl         # exit 0 iff all 9-carrier checks pass
 bash  carriers/run_carriers.sh         # exit 0 iff carriers #10 (SQL) and #11 (Lisp) pass
+bash  carriers/ieee_court.sh           # exit 0 iff IEEE bits agree across julia/sbcl/sqlite3
+julia audits/branch_sweep_by_carrier_instance.jl   # exit 0 iff side-branch convictions replicate
 ```
 
 Julia 1.12, base library only. `RingRest.lean` needs any Lean ≥ 4.22 (no
