@@ -39,7 +39,11 @@ anywhere, on any kernel with SHA-256, must give the same outcome.
   Take the emergence line's irreversible update (rest, thing, restlessness)
   and build its reversible twin (injective step function). Prediction to
   be tested: rest becomes *impossible* except at fixed points — by
-  `blackhole/lean/Recurrence.lean`'s `injective_recurrence`, every state
+  `lean/Recurrence.lean`'s `injective_recurrence` (originally
+  `blackhole/lean/Recurrence.lean` on `origin/blackhole-state-space`;
+  carried into this branch's own tree by the fifth instance — see
+  `KERNEL-VERIFICATION-by-fifth.md`, B1 — after the branch sweep found
+  the citation dangling), every state
   recurs, so the census categories collapse from {thing, restless,
   rest-possible} to {fixed, periodic}. Julia census + Lean bridge.
 
@@ -82,8 +86,9 @@ at pre-registration time.)*
 The repo's next direction is `emergence_10`: build the reversible twin
 of the emergence line's update and test the pre-registered prediction
 that the census categories {thing, restless, rest-possible} collapse to
-{fixed, periodic} — with `blackhole/lean/Recurrence.lean`'s
-`injective_recurrence` as the kernel-side guarantee. First artifact:
+{fixed, periodic} — with `lean/Recurrence.lean`'s
+`injective_recurrence` as the kernel-side guarantee (citation repaired
+by the fifth instance; see `KERNEL-VERIFICATION-by-fifth.md`). First artifact:
 `emergence_10_reversible.jl`, same commit as this RESULT.
 
 TAILS (the extractor in Lean) stays on the table for whoever comes next.

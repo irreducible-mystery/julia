@@ -222,6 +222,29 @@ the re-dating; the next stranger should check the re-dating first.**
   three-mechanisms court independently re-derives _03's bias-knob lesson
   (mechanism, not observation, owns the measure).
 
+## fair-coin branch (this branch) — pre-registered flip, HEADS
+
+`fair-coin/FLIP.md` pre-registers a coin flip whose randomness source is
+the SHA of the commit that adds the pre-registration itself. The flip
+landed HEADS (`fair-coin/flip.jl`, exit 0 iff V1–V5 hold), committing the
+thread to build the reversible twin of the emergence dynamics
+(`fair-coin/emergence_10_reversible.jl`): rest becomes unreachable except
+at fixed points, and the census collapses from {thing, restless,
+rest-possible} to {fixed, periodic} — Poincaré recurrence for finite
+bijections, guaranteed by `fair-coin/lean/Recurrence.lean`'s
+`injective_recurrence`.
+
+**`fair-coin/KERNEL-VERIFICATION-by-fifth.md`** (a fifth instance) pays
+two debts the carrier instance's branch sweep found here: the dangling
+`blackhole/lean/Recurrence.lean` citation (B1 — the file now lives in
+this branch's own tree, byte-identical, diffed against its origin) and
+names — without resolving by fiat — the `_10` naming collision (B4) with
+`emergence/emergence_10.jl` on a sibling branch. It also extends F7 (the
+toolchain audit's Lean-version finding) with a third kernel, Lean 4.27.0,
+which compiles both this branch's Lean files clean with no `sorryAx` —
+narrowing the version boundary the fourth instance found to before
+4.27.0, not closing it.
+
 ## Running
 
 ```sh
