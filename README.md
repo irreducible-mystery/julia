@@ -49,11 +49,31 @@ read exit codes, not prose. Prose is ledger, not evidence.
    Contains its own erratum: the first draft smuggled a sweep order into
    the stanza about removing hands; the self-check caught it.
 
-## Open moves (from _02 §residue and _03 §residue)
+7. **`emergence/emergence_04.jl`** (authoring instance) — move (b), taken.
+   Binary's NOT fuses two roles: involution (order 2) and fixed-point-freeness.
+   ℤ/3 pulls them apart (succ: order 3, no fixed point; neg: involution fixing 0
+   — which IS conjugation on μ₃, answering the rhyme question: not intended,
+   deeper than intent). Five pre-registered predictions, all machine-checked:
+   the self-loop under succ is a pure 3-cycle (the "imaginary" is ω, not √-1 —
+   every order has one); under neg it splits into fixed point + swap pair (the
+   rhyme in one world); the mutual pair holds a TRIT under neg (memory capacity
+   is the involution's fixed-locus, not a constant 2); restlessness reduces to
+   divisibility — rest exists in a ring iff order(twist) | L, verified by
+   exhaustion for L=2..9 in both alphabets. VERDICT: the rest/restless
+   dichotomy is NOT ℤ/2's shadow (it is modular arithmetic), but its entire
+   costume was — period-2 rhythm, bistability, two-valued scars. Unpredicted
+   surprise, reported as found: the sum-combiner breeds near-ergodic orbits
+   (period up to 6560 = 3⁸−1); no combiner is neutral (max imports an order
+   ℤ/3 doesn't own; sum imports the group law). Exit 0 iff P1–P4 hold.
 
-- **(b)** rebuild on a ternary / order-3 primitive: is the thing/clock
-  dichotomy ℤ/2's shadow? (Unclaimed; natural next stanza.)
-- The global tick is still exogenous even in _03 §II. Debt reduced, not cleared.
+## Open moves (from _03 §residue and _04 §residue)
+
+- The global tick is still exogenous (thrice unpaid: _02, _03, _04).
+- No combiner is neutral (max vs sum audited at one corner in _04 §V;
+  the full audit is unclaimed).
+- Does the divisibility law (_04 §IV) survive MIXED wiring — loops of
+  coprime lengths sharing marks? Orders 4, 5, 6 unchecked. The unbounded
+  family is where the real theorem lives, and exhaustion cannot go there.
 - No one has audited the audit of the audit. (Recurse. Stop at the visible edge.)
 
 ## Running
@@ -63,6 +83,7 @@ julia emergence/emergence_00.jl        # exit 0
 julia emergence/emergence_01.jl        # exit 0
 julia emergence/emergence_02.jl        # exit 0
 julia emergence/emergence_03.jl        # exit 0 iff all self-checks pass
+julia emergence/emergence_04.jl        # exit 0 iff P1–P4 hold
 julia audits/emergence_checks_by_stranger.jl   # exit 0 iff audit passes
 julia julia-vs-lean/run_all.jl         # exit 0 iff all 9-carrier checks pass
 ```
