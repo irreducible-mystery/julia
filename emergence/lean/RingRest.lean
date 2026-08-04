@@ -23,6 +23,21 @@
    Int → Nat is done by |·| (natAbs) instead, keeping the whole file
    choice-free. The audit lines at the bottom print the exact ledger;
    verify.sh-style honesty: read them.
+
+   ERRATUM (fourth instance, toolchain audit): as committed by _09 this
+   file compiled only on newer toolchains (verified: 4.32.2). On Lean
+   4.22.0 — the README's own stated minimum — three `rw`s inside
+   congruence callbacks met unreduced β-redexes and failed, silently
+   degrading FIVE declarations (neg_world_rest, charge_formula_raw,
+   charge_formula, charge_conserved_of_outdeg_one, charge_dial) to
+   `sorryAx` in the printed ledger, exit 1. The proofs were never
+   wrong; the CLAIM "any Lean ≥ 4.22" was. A kernel verdict is a
+   property of (file, toolchain), not of the file — the same lesson
+   this repo keeps paying for one level down (period/(world,
+   discipline), census/(rule, seed, stream)), now at the kernel's
+   own door. Repaired 2026-08 with three β-reducing `show`s (sites
+   marked); re-verified on BOTH 4.22.0 and 4.32.2: exit 0, all 16
+   declarations, propext + Quot.sound only, still choice-free.
    ============================================================ -/
 
 namespace RingRest
@@ -125,7 +140,10 @@ theorem rest_of_twist_fixed (tw wire : Nat → Nat) (x0 : Nat)
 theorem neg_world_rest (m : Nat) (wire : Nat → Nat) :
     ∃ s : Nat → Nat, ∀ i, s i = (m - s (wire i)) % m :=
   rest_of_twist_fixed (fun x => (m - x) % m) wire 0
-    (by rw [Nat.sub_zero, Nat.mod_self])
+    -- `show` forces the β-reduced goal first: on Lean 4.22 the goal arrives
+    -- as `(fun x => (m - x) % m) 0 = 0` and `rw` cannot see under the redex
+    -- (4.32 reduces it automatically). Version-robust across 4.22–4.32.
+    (by show (m - 0) % m = 0; rw [Nat.sub_zero, Nat.mod_self])
 
 /- ============================================================
    SECTION 2 — THE DEFECT CHARGE (emergence_06 §II–III, the named
@@ -482,8 +500,11 @@ theorem lsum_eq_weighted (s : Nat → Int) (n : Nat) :
   | nil =>
       intro _
       show (0 : Int) = sumTo (fun j => ((0 : Nat) : Int) * s j) n
+      -- the callback's `show` β-reduces the pointwise goal (Lean 4.22 compat;
+      -- see neg_world_rest)
       rw [sumTo_congr_lt (fun j => ((0 : Nat) : Int) * s j) (fun _ => (0 : Int))
-            n (fun j _ => by rw [Int.natCast_zero, Int.zero_mul]), sumTo_const_zero]
+            n (fun j _ => by show ((0 : Nat) : Int) * s j = (0 : Int)
+                             rw [Int.natCast_zero, Int.zero_mul]), sumTo_const_zero]
   | cons a t ih =>
       intro hmem
       show s a + lsum (t.map s) = sumTo (fun j => (cnt j (a :: t) : Int) * s j) n
@@ -554,8 +575,11 @@ theorem charge_conserved_of_outdeg_one (m : Nat) (inputs : Nat → List Nat) (n 
     sumTo (gDefect m inputs s) n % (m : Int) = (-(n : Int)) % (m : Int) := by
   rw [charge_formula m inputs n hbound s]
   have hz : sumTo (fun j => (1 - outdegI inputs n j) * s j) n = 0 := by
+    -- the callback's `show` β-reduces the pointwise goal (Lean 4.22 compat;
+    -- see neg_world_rest)
     rw [sumTo_congr_lt (fun j => (1 - outdegI inputs n j) * s j) (fun _ => (0 : Int)) n
-          (fun j hj => by rw [hod j hj]; omega), sumTo_const_zero]
+          (fun j hj => by show (1 - outdegI inputs n j) * s j = (0 : Int)
+                          rw [hod j hj]; omega), sumTo_const_zero]
   rw [hz]
   have : (0 : Int) - (n : Int) = -(n : Int) := by omega
   rw [this]

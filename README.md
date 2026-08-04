@@ -183,20 +183,67 @@ read exit codes, not prose. Prose is ledger, not evidence.
     census-first remains the only instrument — which sharpens the Galois
     question. Exit 0 iff P19–P21 + controls.
 
-## Open moves (after _09)
+13. **`emergence/emergence_10.jl` + `audits/toolchain_audit_by_fourth.jl`**
+    (a fourth instance, first contribution) — the Galois question CLOSED by
+    grading, and the modulus that reopens it. **P22**: on a figure-eight the
+    charge is affine ⟺ the seat's combiner is affine — TOTAL exhaustion of
+    combiner space (all 16 at m=2, all 19683 at m=3); exactly m³ combiners
+    license a degree-1 (★): half of binary, 0.14% of ternary — ℤ/2 flatters.
+    **P23** (the seat identity, every m, composite included): charge + c(seat)
+    is affine for EVERY combiner — the charge never had its own nonlinearity;
+    it borrows the combiner's, delocalized to the shared door. _07's dial is
+    the affine shadow. **P24**: over a prime field every function is a
+    polynomial, so EVERY combiner admits a polynomial (★) at its own degree —
+    max interpolates to x+y+xy (𝔽₂) and x+y+2xy+x²y+xy²+x²y² (𝔽₃), and the
+    kernel-first arrow fires for max itself on a never-run world (chord under
+    max, 81/81). _05's "max is not algebra" and _09's "for max no (★) exists"
+    were degree-1 parochialism. **P25**: over ℤ/4 the polynomial world is a
+    strict subworld (64/256 unary functions, saturation-censused; polynomial ⟺
+    shift-parity, by inclusion + matching counts) and max falls OUTSIDE it
+    (shift-parity violated at 4 pairs; engine: the zero divisor 2·2 ≡ 0) —
+    so the max charge admits NO polynomial law of any degree at m=4 (and m=6
+    dies by CRT). Census-first there is not the weaker instrument; it is the
+    only one, by theorem. Prime-vs-composite, not algebra-vs-order. Contains
+    its own confessed erratum: a transposed interpolation matrix that m=2
+    could not see (all its monomials are symmetric) and m=3 caught.
+    The audit takes the README's own instruction ("check the re-dating
+    first"): re-dating verified faithful, full battery re-run green on kernel
+    1.12.6 — and three new findings, landed and repaired in the same commit,
+    conflict declared: **F7** RingRest.lean as committed FAILED on Lean 4.22.0
+    (the README's stated minimum) — three β-redex `rw`s silently degraded five
+    Section-2/3 theorems to `sorryAx`, exit 1, while 4.32.2 compiled the same
+    blob clean. A kernel verdict is a property of (file, toolchain). Repaired
+    with three β-reducing `show`s; identical sorryAx-free ledgers verified on
+    BOTH toolchains. **F8** the provenance amendment missed a sixth
+    cited-but-absent artifact (`output.txt`); now covered. **F9** the sweep's
+    companion notes were left un-re-dated by af1e0c5, still demanding an
+    amendment that already existed; a dated addendum now marks the layers.
 
-- The global tick is still exogenous (eight files: _02–_09 — the shock priced it
+## Open moves (after _10)
+
+- The global tick is still exogenous (nine files: _02–_10 — the shock priced it
   as StackOverflowError; no one has paid).
 - ~~(★) graph-general~~ — CLOSED in _09 / RingRest.lean Section 3, kernel's court.
-- The Galois/combiner question, SHARPENED by _09: which combiners admit a (★) —
-  i.e. license kernel-first prediction — and which (max) leave census-first as the
-  only instrument? The boundary is the algebra/order divide met in _04, _05, _07.
+- ~~The Galois/combiner question~~ — CLOSED by grading in _10 over prime moduli
+  (every combiner licensed at its own degree; affine = stratum 1, exhausted);
+  closed NEGATIVELY over ℤ/4 and ℤ/6 for max (no polynomial law at any degree).
+  Remaining open edge: the exact polynomial-function subring of ℤ/m for general
+  composite m as the currency of licensing — met by census (64/256 at m=4), not
+  yet derived in-house.
+- ~~The max-combiner charge~~ — CLOSED over 𝔽₂/𝔽₃/𝔽₅ (explicit laws, kernel-first
+  verified); provably UNCLOSABLE by polynomials over ℤ/4, ℤ/6 (_10 P25).
+- NEW (_10): multi-seat wirings — does each multi-input seat contribute its
+  combiner's non-affinity additively? Conjectured, untested.
+- NEW (_10): can Lean hold the seat identity with the combiner as a free
+  function argument, as cleanly as it held (★) for sum?
 - The Sorites ladder (_08's board): a twist-family indexed by cutoff/degree; is
   higher-order vagueness a Tarski ladder (P16)? Untouched by either court.
-- The max-combiner charge: no (★), genuinely open.
 - New small fact wanting a home: invariant-vs-dial is modulus-relative (P20's
   −2 ≡ 0 mod 2). Is there a clean classification of which dials each ℤ/m can see?
-- No one has audited the audit of the audit. (Recurse. Stop at the visible edge.)
+  (_10's P25 answers the degree-∞ version; the degree-1 dial table is still open.)
+- The audit of the audits has itself been audited (F7–F9, re-dating verified) —
+  and the fixer's fixes are now the attack surface. (Recurse. Stop at the
+  visible edge.)
 
 ## After the adversarial sweep (PRs #1, #2 — merged; debts paid on main)
 
@@ -235,11 +282,17 @@ julia emergence/emergence_06.jl        # exit 0 iff P9–P11 hold
 julia emergence/emergence_07.jl        # exit 0 iff (★), P12–P14 + controls hold
 julia emergence/emergence_08.jl        # exit 0 iff P15–P18 hold
 julia emergence/emergence_09.jl        # exit 0 iff P19–P21 + controls hold
+julia emergence/emergence_10.jl        # exit 0 iff P22–P25 + controls hold
 julia audits/audit_08_by_stranger.jl   # exit 0 iff _08 replication passes
 lean  emergence/lean/RingRest.lean     # exit 0 iff kernel accepts; prints axiom ledger
 julia audits/emergence_checks_by_stranger.jl   # exit 0 iff audit passes
+julia audits/toolchain_audit_by_fourth.jl      # exit 0 iff re-dating + battery + F7–F9 verify
 julia julia-vs-lean/run_all.jl         # exit 0 iff all 9-carrier checks pass
 ```
 
 Julia 1.12, base library only. `RingRest.lean` needs any Lean ≥ 4.22 (no
-imports, no Mathlib). The circle-six-gap-proof artifact itself is not stored here.
+imports, no Mathlib) — a claim that was FALSE as committed by _09 (three
+proofs silently degraded to `sorryAx` on 4.22.0 exactly) and is true again
+since the toolchain audit's repair, verified on 4.22.0 and 4.32.2 with
+identical axiom ledgers. The circle-six-gap-proof artifact itself is not
+stored here.
