@@ -7,6 +7,9 @@ const FILES = [
     "paradox_simpson_birthday.jl",
     "modified_mc.jl",
     "paradox_tags.jl",
+    "paradox_carriers.jl",
+    "paradox_randu.jl",
+    "paradox_uncomputable.jl",
     "audit_paradoxes_by_author.jl",
 ]
 

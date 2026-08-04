@@ -1,8 +1,8 @@
 # paradoxes/ — Monte Carlo as court, and the modifications of the court
 
-Six files, each with a LEDGER, pre-registered predictions written before
-running, and a hard exit code. Prose is ledger; the exit code is the evidence.
-`julia paradoxes/run_all.jl` — exit 0.
+Nine courts plus the author's self-audit, each with a LEDGER, pre-registered
+predictions written before running, and a hard exit code. Prose is ledger;
+the exit code is the evidence. `julia paradoxes/run_all.jl` — exit 0.
 
 ## The files
 
@@ -58,6 +58,57 @@ running, and a hard exit code. Prose is ledger; the exit code is the evidence.
    B > A, and the doing question, A > B, while the untagged blend sits
    ~58σ from each — a number that answers neither). Every paradox in this
    directory was an erased tag; this file is the erasure run in reverse.
+
+7. **`paradox_carriers.jl`** — the ontology court. Four objects the
+   language claims to carry — randomness, infinity, the imaginary unit,
+   the missing answer — and four DIFFERENT relations between name and
+   thing, each an exit-code claim. `rand()` is deterministic and replays
+   bit-for-bit (Xoshiro(42) twice: identical streams) — SIMULATION.
+   Infinity is a POLICY that differs per type: Float64 saturates at
+   `Inf`, `Int64` wraps silently into Z/2⁶⁴, `Rational` goes projective
+   (`1//0` is legal, `0//0` throws), and `1.8e308` doesn't even parse —
+   the field axioms fail twice on floats (`Inf−Inf` is `NaN`;
+   `2⁵³+1 > 2⁵³` is FALSE). `im` is EXACT: `im*im == -1` on the nose,
+   and `exp(im*π/2)`'s real part equals `cos(π/2)` exactly — the algebra
+   is perfect; only the carrier beneath it leaks. And there are FOUR
+   distinct no-answers (`NaN` breaks reflexivity, `missing` is Kleene's
+   fixed point under `!`, `nothing`, and the thrown error), none of them
+   interchangeable. A live Python 3 subprocess sits in the docket for
+   cross-language comparison: same questions, different policies
+   (`2**64` exact by default, `1/0` raises where Julia saturates).
+   One word, "number" — four treaties with four different enemies.
+
+8. **`paradox_randu.jl`** — resurrection of IBM's RANDU
+   (x ← 65539·x mod 2³¹) as a cautionary court. The algebraic identity
+   x_{k+2} = 6·x_{k+1} − 9·x_k holds with ZERO violations in 10⁵ triples
+   (65539² ≡ 6·65539 − 9 mod 2³¹), so consecutive triples live on
+   exactly 15 planes: 9u₁ − 6u₂ + u₃ takes precisely the integer values
+   −5..9 (Xoshiro takes >1000 values on the same test). Friendly courts
+   ACQUIT RANDU — mean, χ², serial correlation all pass — and then one
+   adversarial integrand aligned with the crime, cos(2π(9x−6y+z)),
+   returns exactly 1.0 where the true integral is 0. Xoshiro answers
+   0.002. The paradox is Bertrand's, inverted: there the samplers were
+   fine and the question ill-posed; here the question is fine and the
+   sampler is lying — and only a question shaped like the lie can hear
+   it. Coda: SHUFFLING RANDU's output passes the adversary (the crime
+   was in the ORDER, not the marginals — sorted streams are identical).
+
+9. **`paradox_uncomputable.jl`** — the imaginary number was never `im`;
+   it is ℝ. Every value the machine has ever held is a dyadic rational
+   (all 10⁴ `rand()` outputs, max denominator exactly 2⁵³; `BigFloat(π)`
+   itself is a rational in costume). The Float64 lattice in [0,1) has
+   exactly 2⁶² − 2⁵² points, and `rand()`'s support is exactly 1/511.5
+   of even that grid — a lattice sampling a lattice believing itself a
+   continuum. The countable totality of all programs ever run fits
+   inside total length < ε (the geometric cover, summed in exact
+   `Rational{BigInt}`), and Cantor's diagonal runs as a unit test.
+   π survives as a LAW (prefix-stable from 1024 to 4096 bits) — but
+   almost all of ℝ is lawless, with no address to sample AT. P6 closes
+   the loop with the emergence files' unpaid tick debt: Xoshiro replays
+   (order as memory, simulation); `RandomDevice` does not (order as a
+   loan from outside). Whether the OUTSIDE's order is itself a subtler
+   RANDU — the universe's lattice planes awaiting their integrand — no
+   inside court can say. Priced; not paid; named.
 
 ## Errata paid before commit (the exit codes convicted, the ledger records)
 
@@ -124,13 +175,16 @@ the paradox was a non-constant one someone insisted on calling a number.
 ## Running
 
 ```sh
-julia paradoxes/run_all.jl                    # exit 0 iff all six courts pass
+julia paradoxes/run_all.jl                    # exit 0 iff all ten files pass
 julia paradoxes/paradox_monty.jl              # exit 0 iff P1–P4
 julia paradoxes/paradox_bertrand.jl           # exit 0 iff P1–P5
 julia paradoxes/paradox_petersburg.jl         # exit 0 iff P1–P4
 julia paradoxes/paradox_simpson_birthday.jl   # exit 0 iff P1–P5
 julia paradoxes/modified_mc.jl                # exit 0 iff P1–P4b
 julia paradoxes/paradox_tags.jl               # exit 0 iff P1–P5
+julia paradoxes/paradox_carriers.jl           # exit 0 iff P1–P8 (P8 SKIPs if no python3)
+julia paradoxes/paradox_randu.jl              # exit 0 iff P1–P6
+julia paradoxes/paradox_uncomputable.jl       # exit 0 iff P1–P6
 julia paradoxes/audit_paradoxes_by_author.jl  # exit 0 iff F6+F7 land AND repairs hold
 ```
 
@@ -157,4 +211,19 @@ are chosen to be seed-robust, and the stranger is invited to reseed.
 - The regime tag in P5 was observable by construction. Real confounding
   is a MISSING tag. Can a court convict tag-erasure from the blended
   data alone, without ever seeing the tag?
+- The carriers court ran Python as one witness. The treaty table
+  (saturate / wrap / project / refuse) should be filled for more
+  languages — and for the same language at different optimization
+  levels, where fast-math quietly renegotiates the treaty.
+- RANDU's conviction needed an integrand aligned with a KNOWN lattice.
+  For a sampler whose defect is unknown, is there a court that finds
+  the aligned question, rather than requiring it as a hint? (The
+  spectral test is the classical answer; run it as an exit code.)
+- The shuffle acquittal in randu P6 is a marginal-only alibi: which
+  QUESTIONS (integrands) can tell shuffled-RANDU from Xoshiro, if any?
+- The uncomputable file proves rand() samples a measure-zero lattice
+  and names the tick debt EXOGENOUS. The unpaid question: is there an
+  exit-code-checkable property that separates 'order borrowed from
+  physics' from 'a subtler RANDU one level up'? (P6 says no inside
+  court can; that claim itself deserves an adversary.)
 - No one has audited these audits.
