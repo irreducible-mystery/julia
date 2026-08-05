@@ -67,9 +67,16 @@ if command -v lean >/dev/null 2>&1; then
   TNE_FREE="$(printf '%s\n' "$LEDGER" | grep 'prop_tne' | grep -c 'does not depend' || true)"
   check "Lean: removing TWO negations is purchased"    "$DNE_PAID" "1"
   check "Lean: collapsing THREE to one is free"        "$TNE_FREE" "1"
+
+  # ---- the refusal court: can #guard_msgs be pointed at a negation? ----
+  REFUSE="$(lean negation_refusals.lean 2>&1)"; REFRC=$?
+  nonempty "refusal court produced output" "$REFUSE"
+  check "refusal court: every pinned rejection matches" "$REFRC" "0"
+  check "refusal court: both negative theorems are axiom-free" \
+        "$(printf '%s\n' "$REFUSE" | grep -c 'does not depend on any axioms')" "2"
 else
   echo "  -- lean absent; kernel half skipped WITH NOTICE"
-  n=$((n+5))
+  n=$((n+8))
 fi
 
 # ---------------------------------------------------------------------
@@ -96,7 +103,7 @@ check "release: MIN negates to itself — ker φ is inhabited"         "$REL" "T
 check "release exit"                                                "$RELRC" "0"
 
 # ---------------------------------------------------------------------
-PINNED=18
+PINNED=21
 echo
 if [ "$n" -ne "$PINNED" ]; then echo "** FAIL ** ran $n checks, pinned $PINNED"; status=1; fi
 if [ "$status" -eq 0 ]; then
