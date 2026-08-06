@@ -148,8 +148,30 @@ let md = read(joinpath(root, "fair-coin/FLIP.md"), String)
         fail("V5: RESULT also claims the other outcome — ambiguous record")
 end
 
+# --- V6: the drawn floors must stay in the record -----------------------------
+# Added after a direct challenge ("is it random?"). The answer is NO —
+# deterministic end to end; what was bought is unchooseability, and that
+# rests on a stack of ARBITRARY floors (iid model, random-oracle faith,
+# threat model, append-only history, 5σ). The house sin is not drawing
+# floors, it is forgetting them — so their ledger gets a failure channel:
+# delete or degrade FLIP.md's THE FLOORS section and this flip goes VOID.
+println("\nV6  the floors ledger: the memory of the arbitrary is load-bearing")
+let md = read(joinpath(root, "fair-coin/FLIP.md"), String)
+    occursin("## THE FLOORS", md) ?
+        pass("THE FLOORS section present in FLIP.md") :
+        fail("V6: floors ledger deleted — a forgotten floor voids the flip")
+    for needle in ("mul_comm", "random oracle", "threat model", "5σ",
+                   "Nothing in this flip is random")
+        occursin(needle, md) ||
+            fail("V6: floor '$needle' missing from the ledger — redrawn without record")
+    end
+    count(occursin(md), ("mul_comm", "random oracle", "threat model", "5σ",
+                         "Nothing in this flip is random")) == 5 &&
+        pass("all five named floors on the record: proof, model, faith, contract, drawn line")
+end
+
 println()
 println(exitcode == 0 ?
-  "FLIP STANDS — anchored, biased, laundered, reproduced, recorded. Nobody chose this bit." :
+  "FLIP STANDS — anchored, biased, laundered, reproduced, recorded. Nobody chose this bit (a threat-model claim, not a theorem — the full ledger of drawn floors under this receipt is FLIP.md's THE FLOORS section; nothing here is random, it is merely unchooseable)." :
   "FLIP VOID — at least one obligation missed; the outcome above is not binding.")
 exit(exitcode)

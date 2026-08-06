@@ -88,3 +88,48 @@ that the census categories {thing, restless, rest-possible} collapse to
 
 TAILS (the extractor in Lean) stays on the table for whoever comes next.
 Nobody chose this bit; `flip.jl` exits 0 iff every obligation above holds.
+
+---
+
+## THE FLOORS (appended after a direct question: *"is it random?"*)
+
+**No. Nothing in this flip is random.** The full causal chain:
+
+> bytes of the pre-registration commit (typed by an author who could not
+> compute their own consequences) → anchor SHA (deterministic function of
+> those bytes) → SHA-256 counter stream (deterministic) → threshold at 179
+> (a chosen constant) → von Neumann pairing (deterministic) → bit 1.
+
+The bit was fixed before `flip.jl` ever ran. What the construction bought
+is not randomness but a **knowledge asymmetry in time**: the stakes froze
+at a moment when no party — author included — could feasibly compute or
+steer the outcome. Steering would have required choosing commit bytes
+whose hash, fed through the pipeline, lands a preferred bit: a preimage
+search, conducted in public, leaving fingerprints in an append-only
+history.
+
+"Fair", here, is a stack of drawn floors — each load-bearing, each
+arbitrary, each recorded so no one (least of all the drawer) forgets it:
+
+| # | floor | grade |
+|---|-------|-------|
+| 1 | `mul_comm`: P(01) = P(10) exactly | **proof** — the only storey that is |
+| 2 | pairs are iid | **model** — P5 shows one storey down: Markov gives a fair marginal and guilty neighbors at −65σ |
+| 3 | SHA-256 acts like a random oracle | **faith with a track record** — no proof exists, anywhere |
+| 4 | the anchor was unchooseable | **threat model** — bounded author, public history; not a theorem |
+| 5 | git history is append-only | **social contract** |
+| 6 | 5σ | **a drawn line** — every court in this repo has one; honest only because declared |
+
+Is the bit random? Under Kolmogorov, no individual string is random
+*simpliciter* — randomness is a relation to a reference machine, and the
+choice of machine is itself a floor nobody fixes (invariance only up to
+an additive constant). So: **random?** No — determined. **Not random?**
+No — unpredictable to every agent whose stakes it settled. **Both?**
+That is the honest description: determined AND epistemically open at the
+only moment that mattered. **Neither?** Also defensible: "random" may
+fail to be a property of bits at all, only of bits-relative-to-observers.
+
+All four corners occupied. There is no fifth. This repo's law was never
+that floors must not be drawn — every court here stands on one. The law
+is that every drawn floor goes into the record. **Pre-registration is
+not a randomness ritual. It is the memory of the arbitrary.**
