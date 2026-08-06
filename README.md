@@ -183,76 +183,30 @@ read exit codes, not prose. Prose is ledger, not evidence.
     census-first remains the only instrument — which sharpens the Galois
     question. Exit 0 iff P19–P21 + controls.
 
-13. **`carriers/`** (translating instance) — Kelly's question — *can this
-    be translated into SQL? into Lisp? what is lost and gained?* — answered
-    by construction: carriers #10 and #11, the thread's first courts that
-    are neither Julia nor Lean.
-    - **#10 SQL** (`ring_charge_carrier.sql`, 151 checks): wirings as edge
-      tables, the census as a query. rest ⟺ m|L, P10, rest ⟺ charge-0,
-      graph-general (★) on every state of eleven worlds, P13/P19 dial, P20
-      with its m=2 vanishing, P21; two mutant laws must fire. The census
-      has NO sweep order — _03's smuggled order and _05's soft-scope flag
-      are *inexpressible* in this carrier — and the host pays with new
-      fingerprints instead: truncated `%` (the floored-mod trap),
-      NULL-swallowing `SUM` (Julia's `init=0` is `COALESCE` here), the
-      INNER JOIN that silently drops the unheard mark. And the K3 court
-      comes home: SQL's NULL is the third value `missing` was imported
-      from; NOT's unique fixed point over {0,1,NULL} is NULL —
-      rest_of_twist_fixed wearing SQL, P16's costume returned to its owner.
-    - **#11 Common Lisp** (`mu4_battery.lisp`, 36 checks): the full 29-line
-      μ₄ battery over seven exact Lisp carriers + the two-equalities float
-      pair, the 65536 sweep (32/64/8, pentagon ⟺ untwisted), gd3 at ℤ/6,
-      mutant controls. Equality is MORE plural here (eq/eql/equal/equalp/=)
-      and bites exact data: matrices under `eq` lose 21/29 with no float in
-      sight. The Int64 = ℤ/2⁶⁴ finding DIES (bignums; wrap is opt-in): a
-      host finding does not translate — it re-instantiates or dies, and its
-      death is the datum. Unregistered convergence, reported as found: the
-      float-exact carrier broke the SAME 13 lines as Julia's FLOAT_EXACT
-      with bit-identical dirt (1.2246467991473532e-16) — IEEE 754 is a
-      deeper invariant than either language on top of it.
-    Full gains/losses/fingerprints ledger in `carriers/README.md`.
 
-14. **`carriers/ieee_court.sh` + `audits/branch_sweep_by_carrier_instance.jl`
-    + `audits/BRANCH-SWEEP-NOTES-by-carrier-instance.md`** (carrier
-    instance) — Kelly's follow-up: *are there other invariants? attack any
-    error or blind spot.* The IEEE court makes #11's unregistered
-    convergence first-class: four double expressions bit-identical across
-    Julia/SBCL/SQLite on one machine (8/8), with two new fingerprints —
-    SQLite's printer renders 0x3FD3333333333334 as `0.3` at `%.17g` while
-    its `=` still refuses it (the display layer is an instrument), and a
-    FOUR-way integer-overflow census: wrap (Julia) / exact-promote (CL) /
-    lossy-float-promote (SQLite) / raise (PostgreSQL, testimony). The
-    branch sweep attacks the four never-audited side branches, runnably:
-    fair-coin's kernel citation dangles (the F1 shape, again — and its
-    coin is re-rollable by `git commit --amend`); the elixir-rust branch
-    is two commits that cancel exactly with zero Elixir/Rust files; the
-    blackhole "independent" audit shares the audited file's entire
-    Feistel key schedule; prose receipts (χ²≈2989) are tighter than their
-    machine checks (>1000); and the _10 slot is double-booked by two
-    branches that don't cite each other. Full census of what survives
-    every carrier vs what belongs to the host: `carriers/README.md`,
-    "The invariant census". Conflict declared: the sweeping instance's own
-    branch remains unattacked — next stranger starts at carriers/.
 
-## Open moves (after _09)
+## Open moves (after _10)
 
-- The global tick is still exogenous (eight files: _02–_09 — the shock priced it
+- The global tick is still exogenous (nine files: _02–_10 — the shock priced it
   as StackOverflowError; no one has paid).
 - ~~(★) graph-general~~ — CLOSED in _09 / RingRest.lean Section 3, kernel's court.
-- The Galois/combiner question, SHARPENED by _09: which combiners admit a (★) —
-  i.e. license kernel-first prediction — and which (max) leave census-first as the
-  only instrument? The boundary is the algebra/order divide met in _04, _05, _07.
+- ~~The Galois/combiner question~~ — CLOSED by grading in _10 over prime moduli
+  (every combiner licensed at its own degree; affine = stratum 1, exhausted);
+  closed NEGATIVELY over ℤ/4 and ℤ/6 for max (no polynomial law at any degree).
+  Remaining open edge: the exact polynomial-function subring of ℤ/m for general
+  composite m as the currency of licensing — met by census (64/256 at m=4), not
+  yet derived in-house.
+- ~~The max-combiner charge~~ — CLOSED over 𝔽₂/𝔽₃/𝔽₅ (explicit laws, kernel-first
+  verified); provably UNCLOSABLE by polynomials over ℤ/4, ℤ/6 (_10 P25).
+- NEW (_10): multi-seat wirings — does each multi-input seat contribute its
+  combiner's non-affinity additively? Conjectured, untested.
+- NEW (_10): can Lean hold the seat identity with the combiner as a free
+  function argument, as cleanly as it held (★) for sum?
 - The Sorites ladder (_08's board): a twist-family indexed by cutoff/degree; is
   higher-order vagueness a Tarski ladder (P16)? Untouched by either court.
-- The max-combiner charge: no (★), genuinely open.
 - New small fact wanting a home: invariant-vs-dial is modulus-relative (P20's
   −2 ≡ 0 mod 2). Is there a clean classification of which dials each ℤ/m can see?
-- No one has audited the audit of the audit. (Recurse. Stop at the visible edge.)
-- The transpose translations, declared not delivered (carriers/README.md):
-  μ₄ in SQL (blocked on first-class functions — nine duplicated query sets
-  would destroy the methodology being translated), orbits in SQL (recursive
-  CTEs reintroduce the update discipline; the tick debt decides the price),
-  the paradox corpus in Lisp (no native K3 — that thesis emigrates to SQL).
+
 
 ## After the adversarial sweep (PRs #1, #2 — merged; debts paid on main)
 
@@ -291,9 +245,11 @@ julia emergence/emergence_06.jl        # exit 0 iff P9–P11 hold
 julia emergence/emergence_07.jl        # exit 0 iff (★), P12–P14 + controls hold
 julia emergence/emergence_08.jl        # exit 0 iff P15–P18 hold
 julia emergence/emergence_09.jl        # exit 0 iff P19–P21 + controls hold
+julia emergence/emergence_10.jl        # exit 0 iff P22–P25 + controls hold
 julia audits/audit_08_by_stranger.jl   # exit 0 iff _08 replication passes
 lean  emergence/lean/RingRest.lean     # exit 0 iff kernel accepts; prints axiom ledger
 julia audits/emergence_checks_by_stranger.jl   # exit 0 iff audit passes
+julia audits/toolchain_audit_by_fourth.jl      # exit 0 iff re-dating + battery + F7–F9 verify
 julia julia-vs-lean/run_all.jl         # exit 0 iff all 9-carrier checks pass
 bash  carriers/run_carriers.sh         # exit 0 iff carriers #10 (SQL) and #11 (Lisp) pass
 bash  carriers/ieee_court.sh           # exit 0 iff IEEE bits agree across julia/sbcl/sqlite3
@@ -301,5 +257,3 @@ julia audits/branch_sweep_by_carrier_instance.jl   # exit 0 iff side-branch conv
 ```
 
 Julia 1.12, base library only. `RingRest.lean` needs any Lean ≥ 4.22 (no
-imports, no Mathlib). `carriers/` needs SQLite ≥ 3.39 and SBCL — nothing
-else does. The circle-six-gap-proof artifact itself is not stored here.

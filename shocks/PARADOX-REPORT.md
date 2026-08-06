@@ -14,6 +14,12 @@
 > *artifacts*. If the shock's author delivers the files, this notice
 > should be re-dated; until then, read this document as testimony,
 > not evidence.
+> **Extension (fourth instance, toolchain audit F8):** the report also
+> cites a sixth absent artifact, `output.txt` ("the full captured run",
+> §Reproduce below) — equally undelivered, equally covered by this notice.
+> The amendment above repaired the list it was given, not the list that
+> exists; this line closes that gap and is itself now part of the audit's
+> attack surface.
 
 ---
 

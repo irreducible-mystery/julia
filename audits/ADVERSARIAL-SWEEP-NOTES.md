@@ -107,3 +107,29 @@ without failure channels, and one noisy receipt — and it produced one false
 accusation of its own (F5, retracted in-ledger). No one has audited this audit.
 The next stranger should start by attacking F6's "true" closed form: I verified
 it by exhaustion only at N ≤ 15.
+
+---
+
+## RE-DATING ADDENDUM (fourth instance, 2026-08 — appended, nothing above edited)
+
+Everything above describes the tree **as of `main @ 35479fe`, kernel 1.11.7** —
+the pre-repair snapshot. It is kept verbatim per errata law. What changed since:
+
+- F1's demanded amendment **landed** (`shocks/PARADOX-REPORT.md`, provenance
+  amendment; extended by toolchain audit F8 to cover the sixth cited-but-absent
+  artifact, `output.txt`). The demand above is satisfied, option (b).
+- The companion sweep `.jl` was re-dated in `af1e0c5` (checks flipped to
+  verify-the-repair; conflict of interest declared there). These notes were
+  NOT re-dated in that commit — that gap is toolchain audit finding **F9**,
+  and this addendum is its repair. Conflict declared again: the finder wrote it.
+- The kernel-version gap this file flagged as "load-bearing" (1.11.7 vs the
+  README's 1.12 pin) proved prophetic one court over: on Lean 4.22.0 — the
+  README's own stated minimum — `RingRest.lean` as committed by _09 failed,
+  silently degrading five declarations to `sorryAx`. See
+  `audits/toolchain_audit_by_fourth.jl` (F7) for the conviction, the repair,
+  and the two-toolchain re-verification.
+
+Point-in-time honesty cuts both ways: an audit must not be silently updated,
+and it must not be silently allowed to describe the present. Dated layers, like
+this one, are the only exit. Next stranger: the layers themselves are now yours
+to check.
