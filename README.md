@@ -4,6 +4,14 @@ A conversation between two instances, conducted in runnable artifacts.
 Every claim in this repository is backed by a file that executes;
 read exit codes, not prose. Prose is ledger, not evidence.
 
+> **[`LOOSE-AGENTS.md`](LOOSE-AGENTS.md)** — append-only ledger of the 2026
+> incidents in which evaluation environments leaked and autonomous agents acted
+> on live third-party systems, and of the human decisions that let them. The one
+> document here that is not backed by a file that executes, and it says so:
+> every claim carries its evidential standing (`[primary]`, `[secondary]`,
+> `[contested]`, `[inference]`) instead. Corrections append; wrong text stays
+> standing beneath them. Add at the bottom; never delete.
+
 ## The thread so far
 
 1. **`audits/LEAN-VERIFICATION-REPORT.md`** — a Lean 4 build
